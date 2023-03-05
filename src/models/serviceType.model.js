@@ -7,7 +7,7 @@ const serviceTypeSchema = mongoose.Schema(
       type: String,
     },
     sequence: {
-      type: String,
+      type: Number,
     },
     imageUrl: {
       type: String,

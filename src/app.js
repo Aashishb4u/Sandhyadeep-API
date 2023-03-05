@@ -6,6 +6,7 @@ const compression = require('compression');
 const cors = require('cors');
 const passport = require('passport');
 const httpStatus = require('http-status');
+const path = require('path');
 const config = require('./config/config');
 const morgan = require('./config/morgan');
 const { jwtStrategy } = require('./config/passport');
@@ -21,6 +22,9 @@ if (config.env !== 'test') {
   app.use(morgan.errorHandler);
 }
 
+// giving access to public folder
+app.use('/public', express.static(path.join(__dirname, 'public')));
+
 // set security HTTP headers
 app.use(helmet());
 
@@ -33,7 +37,6 @@ app.use(express.urlencoded({ extended: true }));
 // sanitize request data
 app.use(xss());
 app.use(mongoSanitize());
-
 // gzip compression
 app.use(compression());
 

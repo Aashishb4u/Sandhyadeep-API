@@ -3,10 +3,28 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { serviceTypeService } = require('../services');
+const { picUpload, parseMultipart } = require('../utils/fileUpload');
+const handleSuccess = require('../utils/SuccessHandler');
 
 const createServiceType = catchAsync(async (req, res) => {
-  const serviceType = await serviceTypeService.createServiceType(req.body);
-  res.status(httpStatus.CREATED).send(serviceType);
+  picUpload(req, res, (err, data) => {
+    if (err) {
+      throw new ApiError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded');
+    } else {
+      serviceTypeService.getMaxSequenceValue().then((maxSeqServiceType) => {
+        const sequence = maxSeqServiceType && maxSeqServiceType.length === 0 ? 1 : +maxSeqServiceType[0].sequence + 1;
+        const reqData = {
+          name: req.body.name,
+          sequence,
+          imageUrl: `public/${req.file.filename}`,
+          type: req.body.type,
+        };
+        serviceTypeService.createServiceType(reqData).then((serviceTypeResponse) => {
+          handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'ServiceType created successfully.', req, res);
+        });
+      });
+    }
+  });
 });
 
 const getServiceTypes = catchAsync(async (req, res) => {
@@ -25,13 +43,27 @@ const getServiceTypeById = catchAsync(async (req, res) => {
 });
 
 const updateServiceType = catchAsync(async (req, res) => {
-  const serviceType = await serviceTypeService.updateServiceTypeById(req.params.serviceTypeId, req.body);
-  res.send(serviceType);
+  picUpload(req, res, (err, data) => {
+    if (err) {
+      throw new ApiError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded');
+    } else {
+      const reqData = {
+        name: req.body.name,
+        type: req.body.type,
+      };
+      if (req.file && req.file.filename) {
+        reqData.imageUrl = `public/${req.file.filename}`;
+      }
+      serviceTypeService.updateServiceTypeById(req.params.serviceTypeId, reqData).then((serviceTypeResponse) => {
+        handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'ServiceType updated successfully.', req, res);
+      });
+    }
+  });
 });
 
 const deleteServiceType = catchAsync(async (req, res) => {
   await serviceTypeService.deleteServiceTypeById(req.params.serviceTypeId);
-  res.status(httpStatus.NO_CONTENT).send();
+  handleSuccess(httpStatus.NO_CONTENT, {}, 'ServiceType deleted successfully.', req, res);
 });
 
 module.exports = {

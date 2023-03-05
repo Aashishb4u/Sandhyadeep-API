@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
+const moment = require('moment');
 const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
-
 /**
  * Create a user
  * @param {Object} userBody
@@ -45,7 +45,7 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id);
+  return User.findById(id).populate('roleId');
 };
 
 /**
@@ -65,12 +65,16 @@ const getUserByEmail = async (email) => {
  */
 const updateUserById = async (userId, updateBody) => {
   const user = await getUserById(userId);
+  const isWhatsAppAvailable = false;
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
   if (updateBody.mobileNo && (await User.isPhoneDuplicate(updateBody.mobileNo, userId))) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Mobile Number already taken');
   }
+  updateBody.isRegistered = true;
+  updateBody.isWhatsAppAvailable = isWhatsAppAvailable || updateBody.isWhatsAppAvailable;
+  updateBody.isRegistered = true;
   Object.assign(user, updateBody);
   await user.save();
   return user;

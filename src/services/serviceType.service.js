@@ -24,6 +24,9 @@ const getAllServiceTypes = async () => {
   return ServiceType.find();
 };
 
+const getMaxSequenceValue = async () => {
+  return ServiceType.find().sort({ sequence: -1 }).limit(1);
+};
 /**
  * Get serviceType by email
  * @param {string} email
@@ -40,9 +43,6 @@ const updateServiceTypeById = async (serviceTypeId, updateBody) => {
   const serviceType = await getServiceTypeById(serviceTypeId);
   if (!serviceType) {
     throw new ApiError(httpStatus.NOT_FOUND, 'ServiceType not found');
-  }
-  if (updateBody.mobileNo && (await ServiceType.isPhoneDuplicate(updateBody.mobileNo, serviceTypeId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Mobile Number already taken');
   }
   Object.assign(serviceType, updateBody);
   await serviceType.save();
@@ -69,4 +69,5 @@ module.exports = {
   updateServiceTypeById,
   deleteServiceTypeById,
   getAllServiceTypes,
+  getMaxSequenceValue,
 };

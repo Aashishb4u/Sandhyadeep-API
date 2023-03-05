@@ -3,8 +3,7 @@ const Joi = require('joi');
 const createServiceType = {
   body: Joi.object().keys({
     name: Joi.string(),
-    sequence: Joi.number(),
-    imageUrl: Joi.string(),
+    imageFile: Joi.any(),
   }),
 };
 

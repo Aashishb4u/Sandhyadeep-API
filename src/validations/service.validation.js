@@ -4,10 +4,14 @@ const { objectId } = require('./custom.validation');
 const createService = {
   body: Joi.object().keys({
     name: Joi.string(),
-    duration: Joi.string(),
+    duration: Joi.number(),
     price: Joi.number(),
     type: Joi.string(),
-    serviceType: Joi.string().custom(objectId),
+    description: Joi.string(),
+    skinTypes: Joi.array(),
+    brands: Joi.array(),
+    imageFile: Joi.any(),
+    subService: Joi.string().custom(objectId),
   }),
 };
 

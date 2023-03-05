@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {toJSON} = require('./plugins');
+const { toJSON } = require('./plugins');
 
 const serviceSchema = mongoose.Schema(
   {
@@ -13,11 +13,27 @@ const serviceSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
-    serviceType: {
+    subService: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'ServiceType',
+      ref: 'SubService',
     },
     type: {
+      type: String,
+    },
+    description: {
+      type: String,
+    },
+    skinTypes: [
+      {
+        type: [String],
+      },
+    ],
+    brands: [
+      {
+        type: [String],
+      },
+    ],
+    imageUrl: {
       type: String,
     },
   },

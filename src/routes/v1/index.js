@@ -2,6 +2,7 @@ const express = require('express');
 const authRoute = require('./auth.route');
 const userRoute = require('./user.route');
 const serviceTypeRoute = require('./serviceType.route');
+const subServiceRoute = require('./serviceSubType.route');
 const serviceRoute = require('./service.route');
 const couponsRoute = require('./coupon.route');
 const rolesRoute = require('./role.route');
@@ -26,6 +27,10 @@ const defaultRoutes = [
   {
     path: '/serviceTypes',
     route: serviceTypeRoute,
+  },
+  {
+    path: '/subServices',
+    route: subServiceRoute,
   },
   {
     path: '/coupons',

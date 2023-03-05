@@ -17,11 +17,11 @@ const createService = async (serviceTypeBody) => {
  * @returns {Promise<Service>}
  */
 const getServiceById = async (id) => {
-  return Service.findById(id).populate('serviceType');
+  return Service.findById(id).populate('subService');
 };
 
 const getAllServices = async () => {
-  return Service.find().populate('serviceType');
+  return Service.find().populate('subService');
 };
 
 /**
@@ -45,16 +45,16 @@ const updateServiceById = async (serviceTypeId, updateBody) => {
 
 /**
  * Delete serviceType by id
- * @param {ObjectId} serviceTypeId
  * @returns {Promise<Service>}
+ * @param serviceId
  */
-const deleteServiceById = async (serviceTypeId) => {
-  const serviceType = await getServiceById(serviceTypeId);
-  if (!serviceType) {
+const deleteServiceById = async (serviceId) => {
+  const service = await getServiceById(serviceId);
+  if (!service) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Service not found');
   }
-  await serviceType.remove();
-  return serviceType;
+  await service.remove();
+  return service;
 };
 
 module.exports = {
