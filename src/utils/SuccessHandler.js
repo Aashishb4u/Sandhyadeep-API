@@ -8,4 +8,13 @@ const handleSuccess = (statusCode, apiData, apiMessage, req, res) => {
   return res.status(statusCode).send(response);
 };
 
-module.exports = handleSuccess;
+const handleError = (statusCode, apiMessage, req, res, error) => {
+  const response = {
+    code: statusCode,
+    message: apiMessage,
+    stack: error,
+  };
+  return res.status(statusCode).send(response);
+};
+
+module.exports = { handleSuccess, handleError };

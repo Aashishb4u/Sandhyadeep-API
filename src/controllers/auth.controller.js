@@ -3,7 +3,7 @@ const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService, otpService, roleService } = require('../services');
 const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
-const handleSuccess = require('../utils/SuccessHandler');
+const { handleSuccess } = require('../utils/SuccessHandler');
 const messages = require('../utils/constants');
 
 const register = catchAsync(async (req, res) => {

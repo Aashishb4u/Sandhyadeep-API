@@ -3,13 +3,13 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { serviceService } = require('../services');
-const handleSuccess = require('../utils/SuccessHandler');
+const { handleSuccess, handleError } = require('../utils/SuccessHandler');
 const { picUpload } = require('../utils/fileUpload');
 
 const createService = catchAsync(async (req, res) => {
   picUpload(req, res, (err, data) => {
     if (err) {
-      throw new ApiError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded');
+      handleError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded', req, res, err);
     } else {
       let brandsArray = [];
       let skinTypesArray = [];
@@ -35,6 +35,7 @@ const createService = catchAsync(async (req, res) => {
         handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'Service Created Successfully.', req, res);
       });
     }
+    res.send(err);
   });
 });
 
@@ -54,7 +55,7 @@ const getServiceById = catchAsync(async (req, res) => {
 const updateService = catchAsync(async (req, res) => {
   picUpload(req, res, (err, data) => {
     if (err) {
-      throw new ApiError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded');
+      handleError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded', req, res, err);
     } else {
       let brandsArray = [];
       let skinTypesArray = [];
@@ -82,6 +83,7 @@ const updateService = catchAsync(async (req, res) => {
         handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'Service Created Successfully.', req, res);
       });
     }
+    res.send(err);
   });
 });
 

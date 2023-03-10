@@ -3,7 +3,7 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { subServiceService } = require('../services');
-const handleSuccess = require('../utils/SuccessHandler');
+const { handleSuccess } = require('../utils/SuccessHandler');
 
 const createSubService = catchAsync(async (req, res) => {
   const subService = await subServiceService.createSubService(req.body);

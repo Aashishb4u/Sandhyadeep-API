@@ -13,6 +13,7 @@ const picUpload = multer({
   storage: picStorage,
   fileFilter(req, file, callback) {
     if (['jpg', 'png', 'jpeg'].indexOf(file.originalname.split('.')[file.originalname.split('.').length - 1]) === -1) {
+      console.log(file.originalname, 'file.originalname');
       return callback(new Error('Invalid File Extension'));
     }
     callback(null, true);

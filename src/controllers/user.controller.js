@@ -16,6 +16,11 @@ const getUsers = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getAllUsers = catchAsync(async (req, res) => {
+  const result = await userService.getAllUsers();
+  res.send(result);
+});
+
 const getUserById = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -40,4 +45,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  getAllUsers,
 };

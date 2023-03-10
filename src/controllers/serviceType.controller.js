@@ -4,12 +4,12 @@ const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { serviceTypeService } = require('../services');
 const { picUpload, parseMultipart } = require('../utils/fileUpload');
-const handleSuccess = require('../utils/SuccessHandler');
+const { handleSuccess, handleError } = require('../utils/SuccessHandler');
 
 const createServiceType = catchAsync(async (req, res) => {
   picUpload(req, res, (err, data) => {
     if (err) {
-      throw new ApiError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded');
+      handleError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded', req, res, err);
     } else {
       serviceTypeService.getMaxSequenceValue().then((maxSeqServiceType) => {
         const sequence = maxSeqServiceType && maxSeqServiceType.length === 0 ? 1 : +maxSeqServiceType[0].sequence + 1;
@@ -45,7 +45,7 @@ const getServiceTypeById = catchAsync(async (req, res) => {
 const updateServiceType = catchAsync(async (req, res) => {
   picUpload(req, res, (err, data) => {
     if (err) {
-      throw new ApiError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded');
+      handleError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded', req, res, err);
     } else {
       const reqData = {
         name: req.body.name,
