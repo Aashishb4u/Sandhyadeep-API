@@ -1,18 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef2431f8-d30d-473f-8910-29104aadfb50" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/auth.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/service.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/service.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/serviceSubType.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/serviceSubType.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/serviceType.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/serviceType.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/user.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/user.controller.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/routes/v1/user.route.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/routes/v1/user.route.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/services/user.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/user.service.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/SuccessHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/SuccessHandler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/fileUpload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/fileUpload.js" afterDir="false" />
-    </list>
+    <list default="true" id="ef2431f8-d30d-473f-8910-29104aadfb50" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
