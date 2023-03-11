@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef2431f8-d30d-473f-8910-29104aadfb50" name="Default Changelist" comment="" />
+    <list default="true" id="ef2431f8-d30d-473f-8910-29104aadfb50" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/auth.controller.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,7 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../sandhyadeep-ui" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -44,11 +47,11 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\aabhagwa\sandhyadeep\sandhyadeep-api\src\models" />
       <recent name="C:\Users\aabhagwa\sandhyadeep\sandhyadeep-api\src\controllers" />
       <recent name="C:\Users\aabhagwa\sandhyadeep\sandhyadeep-api\src\validations" />
       <recent name="C:\Users\aabhagwa\sandhyadeep\sandhyadeep-api\src\routes\v1" />
-      <recent name="C:\Users\aabhagwa\sandhyadeep\sandhyadeep-api" />
     </key>
   </component>
   <component name="SvnConfiguration">
@@ -70,6 +73,7 @@
       <workItem from="1677828149655" duration="45304000" />
       <workItem from="1678086015750" duration="2110000" />
       <workItem from="1678447018697" duration="2597000" />
+      <workItem from="1678547919869" duration="760000" />
     </task>
     <servers />
   </component>
@@ -89,18 +93,24 @@
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="371" y="79" key="FileChooserDialogImpl/0.0.1280.760@0.0.1280.760" timestamp="1678448028042" />
-    <state x="272" y="164" key="com.intellij.ide.util.TipDialog" timestamp="1678086205698">
-      <screen x="0" y="0" width="1280" height="760" />
+    <state x="244" y="172" key="com.intellij.ide.util.TipDialog" timestamp="1678547920675">
+      <screen x="0" y="30" width="1147" height="659" />
     </state>
     <state x="272" y="164" key="com.intellij.ide.util.TipDialog/0.0.1280.760@0.0.1280.760" timestamp="1678086205698" />
+    <state x="244" y="172" key="com.intellij.ide.util.TipDialog/0.30.1147.659@0.30.1147.659" timestamp="1678547920675" />
     <state x="417" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1677996762535">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="417" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.760@0.0.1280.760" timestamp="1677996762535" />
-    <state x="272" y="43" width="737" height="674" key="find.popup" timestamp="1678449605627">
-      <screen x="0" y="0" width="1280" height="760" />
+    <state x="244" y="65" width="674" height="640" key="find.popup" timestamp="1678550345969">
+      <screen x="0" y="24" width="1147" height="721" />
     </state>
     <state x="272" y="43" width="737" height="674" key="find.popup/0.0.1280.760@0.0.1280.760" timestamp="1678449605627" />
+    <state x="244" y="65" width="674" height="640" key="find.popup/0.24.1147.721@0.24.1147.721" timestamp="1678550345969" />
+    <state width="600" height="424" key="javadoc.popup" timestamp="1678550376196">
+      <screen x="0" y="24" width="1147" height="721" />
+    </state>
+    <state width="600" height="424" key="javadoc.popup/0.24.1147.721@0.24.1147.721" timestamp="1678550376196" />
     <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup" timestamp="1677503698402">
       <screen x="0" y="0" width="1280" height="760" />
     </state>

@@ -16,7 +16,6 @@ const register = catchAsync(async (req, res) => {
     user = await userService.createUser(req.body);
   }
   handleSuccess(httpStatus.CREATED, { user }, messages.USER_ADDED_SUCCESS, req, res);
-  res.status(httpStatus.CREATED).send({ user });
 });
 
 const verifyOtp = catchAsync(async (req, res) => {
