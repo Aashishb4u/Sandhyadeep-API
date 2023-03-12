@@ -31,6 +31,7 @@ const userSchema = mongoose.Schema(
     age: { type: String, default: "" },
     otp: { type: String },
     otpCount: { type: Number, default: 0 },
+    imageUrl: { type: String, default: '' },
     isActive: { type: Boolean, default: false },
     isWhatsAppAvailable: { type: Boolean, default: false },
     isRegistered: { type: Boolean, default: false },

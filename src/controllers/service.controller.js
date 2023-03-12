@@ -35,7 +35,6 @@ const createService = catchAsync(async (req, res) => {
         handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'Service Created Successfully.', req, res);
       });
     }
-    res.send(err);
   });
 });
 
@@ -83,7 +82,6 @@ const updateService = catchAsync(async (req, res) => {
         handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'Service Created Successfully.', req, res);
       });
     }
-    res.send(err);
   });
 });
 
