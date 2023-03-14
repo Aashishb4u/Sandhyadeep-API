@@ -21,7 +21,7 @@ const getServiceTypeById = async (id) => {
 };
 
 const getAllServiceTypes = async () => {
-  return ServiceType.find();
+  return ServiceType.find().sort({ $natural: -1 });
 };
 
 const getMaxSequenceValue = async () => {

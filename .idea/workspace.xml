@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ef2431f8-d30d-473f-8910-29104aadfb50" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/controllers/auth.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/auth.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/services/service.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service.service.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +73,8 @@
       <workItem from="1677828149655" duration="45304000" />
       <workItem from="1678086015750" duration="2110000" />
       <workItem from="1678447018697" duration="2597000" />
-      <workItem from="1678547919869" duration="760000" />
+      <workItem from="1678547919869" duration="9512000" />
+      <workItem from="1678778046830" duration="290000" />
     </task>
     <servers />
   </component>
@@ -85,6 +86,10 @@
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="133" y="0" key="#ESLint/0.0.1280.760@0.0.1280.760" timestamp="1676532682002" />
+    <state x="38" y="46" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1678703738268">
+      <screen x="0" y="24" width="1147" height="721" />
+    </state>
+    <state x="38" y="46" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.24.1147.721@0.24.1147.721" timestamp="1678703738268" />
     <state x="344" y="166" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1677841421438">
       <screen x="0" y="0" width="1280" height="760" />
     </state>

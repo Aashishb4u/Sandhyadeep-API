@@ -40,7 +40,7 @@ const queryUsers = async (filter, options) => {
 };
 
 const getAllUsers = async () => {
-  const users = await User.find().populate('roleId');
+  const users = await User.find().populate('roleId').sort({ $natural: -1 });
   return users;
 };
 
