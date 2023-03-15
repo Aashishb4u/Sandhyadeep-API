@@ -11,7 +11,23 @@ const createService = {
     skinTypes: Joi.array(),
     brands: Joi.array(),
     imageFile: Joi.any(),
-    subService: Joi.string().custom(objectId),
+    subService: Joi.string(),
+    serviceType: Joi.string().custom(objectId),
+  }),
+};
+
+const updateService = {
+  body: Joi.object().keys({
+    name: Joi.string(),
+    duration: Joi.number(),
+    price: Joi.number(),
+    type: Joi.string(),
+    description: Joi.string(),
+    skinTypes: Joi.array(),
+    brands: Joi.array(),
+    imageFile: Joi.any(),
+    subService: Joi.string(),
+    serviceType: Joi.string().custom(objectId),
   }),
 };
 
@@ -45,4 +61,5 @@ module.exports = {
   getService,
   deleteService,
   getServiceById,
+  updateService
 };

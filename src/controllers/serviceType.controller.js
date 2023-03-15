@@ -9,7 +9,6 @@ const { handleSuccess, handleError } = require('../utils/SuccessHandler');
 const createServiceType = catchAsync(async (req, res) => {
   picUpload(req, res, (err, data) => {
     if (err) {
-      console.log(err, 'err --------');
       handleError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded', req, res, err);
     } else {
       serviceTypeService.getMaxSequenceValue().then((maxSeqServiceType) => {

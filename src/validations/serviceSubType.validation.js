@@ -7,6 +7,13 @@ const createSubService = {
   }),
 };
 
+const updateSubService = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    serviceType: Joi.string().required(),
+  }),
+};
+
 const getSubServices = {
   query: Joi.object().keys({
     id: Joi.string(),
@@ -30,4 +37,5 @@ module.exports = {
   getSubServices,
   getSubServiceById,
   deleteSubService,
+  updateSubService
 };

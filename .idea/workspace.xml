@@ -3,7 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="ef2431f8-d30d-473f-8910-29104aadfb50" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/serviceSubType.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/serviceSubType.controller.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/controllers/serviceType.controller.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/controllers/serviceType.controller.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/services/service.service.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/services/service.service.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/fileUpload.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/fileUpload.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +46,8 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.standard" value="" />
     <property name="nodejs_package_manager_path" value="yarn" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\PhpStorm 2019.3.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -75,6 +79,7 @@
       <workItem from="1678447018697" duration="2597000" />
       <workItem from="1678547919869" duration="9512000" />
       <workItem from="1678778046830" duration="290000" />
+      <workItem from="1678806086048" duration="8193000" />
     </task>
     <servers />
   </component>
@@ -98,27 +103,33 @@
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="371" y="79" key="FileChooserDialogImpl/0.0.1280.760@0.0.1280.760" timestamp="1678448028042" />
-    <state x="244" y="172" key="com.intellij.ide.util.TipDialog" timestamp="1678547920675">
-      <screen x="0" y="30" width="1147" height="659" />
+    <state x="0" y="24" width="917" height="721" key="SettingsEditor" timestamp="1678806167031">
+      <screen x="0" y="24" width="1147" height="721" />
+    </state>
+    <state x="0" y="24" width="917" height="721" key="SettingsEditor/0.24.1147.721@0.24.1147.721" timestamp="1678806167031" />
+    <state x="244" y="179" key="com.intellij.ide.util.TipDialog" timestamp="1678806087601">
+      <screen x="0" y="24" width="1147" height="721" />
     </state>
     <state x="272" y="164" key="com.intellij.ide.util.TipDialog/0.0.1280.760@0.0.1280.760" timestamp="1678086205698" />
+    <state x="244" y="179" key="com.intellij.ide.util.TipDialog/0.24.1147.721@0.24.1147.721" timestamp="1678806087600" />
     <state x="244" y="172" key="com.intellij.ide.util.TipDialog/0.30.1147.659@0.30.1147.659" timestamp="1678547920675" />
     <state x="417" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1677996762535">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="417" y="278" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.760@0.0.1280.760" timestamp="1677996762535" />
-    <state x="244" y="65" width="674" height="640" key="find.popup" timestamp="1678550345969">
+    <state x="244" y="65" width="674" height="640" key="find.popup" timestamp="1678903997716">
       <screen x="0" y="24" width="1147" height="721" />
     </state>
     <state x="272" y="43" width="737" height="674" key="find.popup/0.0.1280.760@0.0.1280.760" timestamp="1678449605627" />
-    <state x="244" y="65" width="674" height="640" key="find.popup/0.24.1147.721@0.24.1147.721" timestamp="1678550345969" />
+    <state x="244" y="65" width="674" height="640" key="find.popup/0.24.1147.721@0.24.1147.721" timestamp="1678903997716" />
     <state width="600" height="424" key="javadoc.popup" timestamp="1678550376196">
       <screen x="0" y="24" width="1147" height="721" />
     </state>
     <state width="600" height="424" key="javadoc.popup/0.24.1147.721@0.24.1147.721" timestamp="1678550376196" />
-    <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup" timestamp="1677503698402">
-      <screen x="0" y="0" width="1280" height="760" />
+    <state x="196" y="24" width="753" height="981" key="search.everywhere.popup" timestamp="1678904017743">
+      <screen x="0" y="24" width="1147" height="721" />
     </state>
     <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup/0.0.1280.760@0.0.1280.760" timestamp="1677503698402" />
+    <state x="196" y="24" width="753" height="981" key="search.everywhere.popup/0.24.1147.721@0.24.1147.721" timestamp="1678904017743" />
   </component>
 </project>
