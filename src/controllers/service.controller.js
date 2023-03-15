@@ -25,12 +25,15 @@ const createService = catchAsync(async (req, res) => {
         type: requestData.type,
         duration: requestData.duration,
         price: requestData.price,
-        subService: requestData.subService,
+        serviceType: requestData.serviceType,
         description: requestData.description,
         brands: brandsArray,
         skinTypes: skinTypesArray,
-        imageUrl: `public/${req.file.filename}`,
       };
+      reqData.imageUrl = req.file && req.file.filename ? `public/${req.file.filename}` : 'public/no-image.png';
+      if (requestData.subService && requestData.subService !== 'not_applicable') {
+        reqData.subService = requestData.subService;
+      }
       serviceService.createService(reqData).then((serviceTypeResponse) => {
         handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'Service Created Successfully.', req, res);
       });
@@ -70,13 +73,16 @@ const updateService = catchAsync(async (req, res) => {
         type: requestData.type,
         duration: requestData.duration,
         price: requestData.price,
-        subService: requestData.subService,
+        serviceType: requestData.serviceType,
         description: requestData.description,
         brands: brandsArray,
         skinTypes: skinTypesArray,
       };
       if (req.file && req.file.filename) {
         reqData.imageUrl = `public/${req.file.filename}`;
+      }
+      if (requestData.subService && requestData.subService !== 'not_applicable') {
+        reqData.subService = requestData.subService;
       }
       serviceService.updateServiceById(req.params.serviceId, reqData).then((serviceTypeResponse) => {
         handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'Service Created Successfully.', req, res);

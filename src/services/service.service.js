@@ -21,7 +21,7 @@ const getServiceById = async (id) => {
 };
 
 const getAllServices = async () => {
-  return Service.find().populate('subService').sort({ $natural: -1 });
+  return Service.find().populate('subService').populate('serviceType').sort({ $natural: -1 });
 };
 
 /**

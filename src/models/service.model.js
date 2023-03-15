@@ -17,6 +17,10 @@ const serviceSchema = mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'SubService',
     },
+    serviceType: {
+      type: mongoose.SchemaTypes.ObjectId,
+      ref: 'ServiceType',
+    },
     type: {
       type: String,
     },
