@@ -41,9 +41,12 @@ app.use(mongoSanitize());
 app.use(compression());
 
 // enable cors
-app.use(cors());
-app.options('*', cors());
-
+// app.use(cors());
+app.use(cors({ origin: true, credentials: true, optionsSuccessStatus: 200 }));
+// app.options('*', cors());
+app.options('/*', (_, res) => {
+  res.sendStatus(200);
+});
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
