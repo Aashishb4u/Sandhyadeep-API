@@ -18,6 +18,7 @@ const serviceSchema = mongoose.Schema(
       ref: 'SubService',
     },
     serviceType: {
+      default: null,
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'ServiceType',
     },

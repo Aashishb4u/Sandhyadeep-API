@@ -83,6 +83,8 @@ const updateService = catchAsync(async (req, res) => {
       }
       if (requestData.subService && requestData.subService !== 'not_applicable') {
         reqData.subService = requestData.subService;
+      } else if (requestData.subService === 'not_applicable') {
+        reqData.subService = null;
       }
       serviceService.updateServiceById(req.params.serviceId, reqData).then((serviceTypeResponse) => {
         handleSuccess(httpStatus.CREATED, { serviceTypeResponse }, 'Service Created Successfully.', req, res);
