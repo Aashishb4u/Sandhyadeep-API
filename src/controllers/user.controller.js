@@ -3,12 +3,23 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
-const { handleSuccess } = require('../utils/SuccessHandler');
 const messages = require('../utils/constants');
+const { handleSuccess, handleError } = require('../utils/SuccessHandler');
+const { picUpload } = require('../utils/fileUpload');
 
 const createUser = catchAsync(async (req, res) => {
-  const user = await userService.createUser(req.body);
-  res.status(httpStatus.CREATED).send(user);
+  picUpload(req, res, (err, data) => {
+    if (err) {
+      handleError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded', req, res, err);
+    } else {
+      let requestData = req.body;
+      requestData.isRegistered = true;
+      requestData.imageUrl = req.file && req.file.filename ? `public/${req.file.filename}` : 'public/no-image.png';
+      userService.createUser(requestData).then((userResponse) => {
+        handleSuccess(httpStatus.CREATED, { userResponse }, 'User Created Successfully.', req, res);
+      });
+    }
+  });
 });
 
 const getUsers = catchAsync(async (req, res) => {
@@ -32,8 +43,18 @@ const getUserById = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-  const user = await userService.updateUserById(req.params.userId, req.body);
-  handleSuccess(httpStatus.OK, user, messages.USER_CREATED_SUCCESS, req, res);
+  picUpload(req, res, (err, data) => {
+    if (err) {
+      handleError(httpStatus.UNSUPPORTED_MEDIA_TYPE, 'Image is not uploaded', req, res, err);
+    } else {
+      let requestData = req.body;
+      requestData.isRegistered = true;
+      requestData.imageUrl = req.file && req.file.filename ? `public/${req.file.filename}` : 'public/no-image.png';
+      userService.updateUserById(req.params.userId, requestData).then((userResponse) => {
+        handleSuccess(httpStatus.CREATED, { userResponse }, 'User Created Successfully.', req, res);
+      });
+    }
+  });
 });
 
 const deleteUser = catchAsync(async (req, res) => {
