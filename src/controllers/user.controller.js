@@ -52,14 +52,21 @@ const updateUser = catchAsync(async (req, res) => {
       if (req.file && req.file.filename) {
         requestData.imageUrl = `public/${req.file.filename}`;
       }
-      userService.updateUserById(req.params.userId, requestData).then((userResponse) => {
-        handleSuccess(httpStatus.CREATED, { userResponse }, 'User Created Successfully.', req, res);
+      userService.updateUserById(req.params.userId, requestData).then(async () => {
+        const userData = await userService.getUserById(req.params.userId);
+        handleSuccess(httpStatus.CREATED, { userData }, 'User Updated Successfully.', req, res);
       });
     }
   });
 });
 
 const deleteUser = catchAsync(async (req, res) => {
+  // await userService.deleteUserById(req.params.userId);
+  const user = await userService.getUserById(req.params.userId);
+  if (req.params.userId === user.id) {
+    handleError(httpStatus.FORBIDDEN, 'Admin cannot delete their own account.', req, res, '');
+    return;
+  }
   await userService.deleteUserById(req.params.userId);
   res.status(httpStatus.NO_CONTENT).send();
 });
