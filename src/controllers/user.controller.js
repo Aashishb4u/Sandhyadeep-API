@@ -14,7 +14,7 @@ const createUser = catchAsync(async (req, res) => {
     } else {
       let requestData = req.body;
       requestData.isRegistered = true;
-      requestData.imageUrl = req.file && req.file.filename ? `public/${req.file.filename}` : 'public/no-image.png';
+      requestData.imageUrl = req.file && req.file.filename ? `public/${req.file.filename}` : 'public/default-profile.png';
       userService.createUser(requestData).then((userResponse) => {
         handleSuccess(httpStatus.CREATED, { userResponse }, 'User Created Successfully.', req, res);
       });
@@ -49,7 +49,9 @@ const updateUser = catchAsync(async (req, res) => {
     } else {
       let requestData = req.body;
       requestData.isRegistered = true;
-      requestData.imageUrl = req.file && req.file.filename ? `public/${req.file.filename}` : 'public/no-image.png';
+      if (req.file && req.file.filename) {
+        requestData.imageUrl = `public/${req.file.filename}`;
+      }
       userService.updateUserById(req.params.userId, requestData).then((userResponse) => {
         handleSuccess(httpStatus.CREATED, { userResponse }, 'User Created Successfully.', req, res);
       });
