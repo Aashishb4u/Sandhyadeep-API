@@ -7,6 +7,7 @@ const serviceRoute = require('./service.route');
 const couponsRoute = require('./coupon.route');
 const rolesRoute = require('./role.route');
 const docsRoute = require('./docs.route');
+const appImageRoute = require('./appImages.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -39,6 +40,10 @@ const defaultRoutes = [
   {
     path: '/roles',
     route: rolesRoute,
+  },
+  {
+    path: '/appImages',
+    route: appImageRoute,
   },
 ];
 

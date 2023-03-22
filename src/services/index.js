@@ -8,3 +8,4 @@ module.exports.serviceTypeService = require('./serviceType.service');
 module.exports.serviceService = require('./service.service');
 module.exports.subServiceService = require('./subService.service');
 module.exports.couponService = require('./coupon.service');
+module.exports.appImageService = require('./appImage.service');

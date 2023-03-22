@@ -29,6 +29,11 @@ const updateUser = {
   }),
   body: Joi.object().keys({
     name: Joi.string(),
+    email: Joi.string(),
+    dateOfBirth: Joi.string(),
+    mobileNo: Joi.any(),
+    isActive: Joi.boolean(),
+    isWhatsAppAvailable: Joi.boolean(),
   }),
 };
 
