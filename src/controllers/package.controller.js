@@ -53,7 +53,7 @@ const updatePackage = catchAsync(async (req, res) => {
         services: JSON.parse(requestData.services),
       };
       if (req.file && req.file.filename) {
-        requestData.imageUrl = `public/${req.file.filename}`;
+        reqData.imageUrl = `public/${req.file.filename}`;
       }
       packageService.updateServiceById(req.params.packageId, reqData).then((response) => {
         handleSuccess(httpStatus.CREATED, { response }, 'Image Created Successfully.', req, res);
