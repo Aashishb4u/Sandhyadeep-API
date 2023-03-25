@@ -6,3 +6,4 @@ module.exports.Service = require('./service.model');
 module.exports.SubService = require('./subService.model');
 module.exports.Coupon = require('./coupon.model');
 module.exports.AppImage = require('./appImage.model');
+module.exports.Package = require('./package.model');
