@@ -47,9 +47,10 @@ const updateAppImage = catchAsync(async (req, res) => {
       const reqData = {
         name: requestData.name,
         assetLocation: requestData.assetLocation,
-        imageUrl:
-          req.file && req.file.filename ? `public/${req.file.filename}` : 'public/no-image.png',
       };
+      if (req.file && req.file.filename) {
+        requestData.imageUrl = `public/${req.file.filename}`;
+      }
       appImageService.updateServiceById(req.params.appImageId, reqData).then((response) => {
         handleSuccess(httpStatus.CREATED, { response }, 'Image Created Successfully.', req, res);
       });
