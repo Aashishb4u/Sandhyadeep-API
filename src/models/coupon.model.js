@@ -10,6 +10,15 @@ const couponSchema = mongoose.Schema(
     discountPrice: {
       type: Number,
     },
+    description: {
+      type: String,
+    },
+    expiresOn: {
+      type: String,
+    },
+    couponLabel: {
+      type: String,
+    },
   },
   {
     timestamps: true,

@@ -9,6 +9,7 @@ const rolesRoute = require('./role.route');
 const docsRoute = require('./docs.route');
 const appImageRoute = require('./appImages.route');
 const packageRoute = require('./package.route');
+const paymentRoute = require('./payment.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -49,6 +50,10 @@ const defaultRoutes = [
   {
     path: '/packages',
     route: packageRoute,
+  },
+  {
+    path: '/payments',
+    route: paymentRoute,
   },
 ];
 
