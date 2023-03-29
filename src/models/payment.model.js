@@ -25,6 +25,12 @@ const paymentSchema = mongoose.Schema(
     signatureVerification: {
       type: Boolean,
     },
+    paymentStatus: {
+      type: String,
+    },
+    paymentReceiptId: {
+      type: String,
+    },
   },
   {
     timestamps: true,

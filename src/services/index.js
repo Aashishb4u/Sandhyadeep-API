@@ -10,4 +10,5 @@ module.exports.subServiceService = require('./subService.service');
 module.exports.couponService = require('./coupon.service');
 module.exports.appImageService = require('./appImage.service');
 module.exports.packageService = require('./package.service');
-module.exports.paymentService = require('./package.service');
+module.exports.paymentService = require('./payment.service');
+module.exports.bookingService = require('./booking.service');

@@ -4,7 +4,7 @@ const { authService, userService, tokenService, emailService, otpService, roleSe
 const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
 const { handleSuccess } = require('../utils/SuccessHandler');
-const messages = require('../utils/constants');
+const constants = require('../utils/constants');
 
 const register = catchAsync(async (req, res) => {
   let user = await userService.getUserByNumber(req.body);
@@ -15,7 +15,7 @@ const register = catchAsync(async (req, res) => {
     req.body.otp = otp;
     user = await userService.createUser(req.body);
   }
-  handleSuccess(httpStatus.CREATED, { user }, messages.USER_ADDED_SUCCESS, req, res);
+  handleSuccess(httpStatus.CREATED, { user }, constants.USER_ADDED_SUCCESS, req, res);
 });
 
 const verifyOtp = catchAsync(async (req, res) => {
@@ -26,7 +26,7 @@ const verifyOtp = catchAsync(async (req, res) => {
     throw new ApiError(httpStatus.NOT_FOUND, 'Invalid OTP');
   }
   const tokens = await tokenService.generateAuthTokens(user);
-  handleSuccess(httpStatus.OK, { user, tokens }, messages.OTP_VERIFY_SUCCESS, req, res);
+  handleSuccess(httpStatus.OK, { user, tokens }, constants.OTP_VERIFY_SUCCESS, req, res);
 });
 
 const resendOtp = catchAsync(async (req, res) => {

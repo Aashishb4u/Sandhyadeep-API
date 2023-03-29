@@ -1,40 +1,42 @@
 const express = require('express');
 const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
-const paymentValidation = require('../../validations/payments.validation');
-const paymentController = require('../../controllers/payment.controller');
+const bookingValidation = require('../../validations/booking.validation');
+const bookingController = require('../../controllers/booking.controller');
 
 const router = express.Router();
-// AppImage Authorization: Bearer <token>
+// user Authorization: Bearer <token>
 router
   .route('/')
-  .post(auth('manageUsers'),
-    validate(paymentValidation.createPayment), paymentController.createPayment);
+  .post(auth('manageUsers'), validate(bookingValidation.createBooking), bookingController.createBooking)
+  .get(auth('getUsers'), validate(bookingValidation.getBookings), bookingController.getBookings);
 
 router
-  .route('/verify')
-  .post(auth('manageUsers'), validate(paymentValidation.verifyPayment), paymentController.verifyPayment);
+  .route('/:bookingId')
+  .get(auth('getUsers'), validate(bookingValidation.getBookingById), bookingController.getBookingById)
+  .patch(auth('manageUsers'), validate(bookingValidation.updateBooking), bookingController.updateBooking)
+  .delete(
+    auth('manageUsers'),
+    validate(bookingValidation.deleteBooking),
+    bookingController.deleteBooking
+  );
 
-router
-  .route('/:paymentId')
-  // .get(auth('getUsers'), validate(userValidation.getUserById), userController.getUserById)
-  .patch(auth('manageUsers'), validate(paymentValidation.updatePayment), paymentController.updatePayment);
 module.exports = router;
 
 /**
  * @swagger
  * tags:
- *   name: AppImages
- *   description: User AppImage management and retrieval
+ *   name: Service Types
+ *   description: Service Types management and retrieval
  */
 
 /**
  * @swagger
- * /appImages:
+ * /serviceTypes:
  *   post:
- *     summary: Create a AppImage
- *     description: Only admins can create other AppImages.
- *     tags: [AppImages]
+ *     summary: Create a user
+ *     description: Only admins can create other serviceTypes.
+ *     tags: [Service Types]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -47,7 +49,7 @@ module.exports = router;
  *               - name
  *               - email
  *               - password
- *               - appImage
+ *               - role
  *             properties:
  *               name:
  *                 type: string
@@ -60,14 +62,14 @@ module.exports = router;
  *                 format: password
  *                 minLength: 8
  *                 description: At least one number and one letter
- *               AppImage:
+ *               role:
  *                  type: string
- *                  enum: [AppImage, admin]
+ *                  enum: [user, admin]
  *             example:
  *               name: fake name
  *               email: fake@example.com
  *               password: password1
- *               AppImage: AppImage
+ *               role: user
  *     responses:
  *       "201":
  *         description: Created
@@ -83,9 +85,9 @@ module.exports = router;
  *         $ref: '#/components/responses/Forbidden'
  *
  *   get:
- *     summary: Get all AppImages
- *     description: Only admins can retrieve all AppImages.
- *     tags: [AppImages]
+ *     summary: Get all serviceTypes
+ *     description: Only admins can retrieve all serviceTypes.
+ *     tags: [Service Types]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -95,10 +97,10 @@ module.exports = router;
  *           type: string
  *         description: User name
  *       - in: query
- *         name: AppImage
+ *         name: role
  *         schema:
  *           type: string
- *         description: User AppImage
+ *         description: User role
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -110,7 +112,7 @@ module.exports = router;
  *           type: integer
  *           minimum: 1
  *         default: 10
- *         description: Maximum number of AppImages
+ *         description: Maximum number of serviceTypes
  *       - in: query
  *         name: page
  *         schema:
@@ -150,11 +152,11 @@ module.exports = router;
 
 /**
  * @swagger
- * /AppImages/{id}:
+ * /serviceTypes/{id}:
  *   get:
- *     summary: Get a AppImage
- *     description: Logged in AppImages can fetch only their own AppImage information. Only admins can fetch other AppImages.
- *     tags: [AppImages]
+ *     summary: Get a user
+ *     description: Logged in serviceTypes can fetch only their own user information. Only admins can fetch other serviceTypes.
+ *     tags: [Service Types]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -179,9 +181,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   patch:
- *     summary: Update a AppImage
- *     description: Logged in AppImages can only update their own information. Only admins can update other AppImages.
- *     tags: [AppImages]
+ *     summary: Update a user
+ *     description: Logged in serviceTypes can only update their own information. Only admins can update other serviceTypes.
+ *     tags: [Service Types]
  *     security:
  *       - bearerAuth: []
  *     parameters:
@@ -230,9 +232,9 @@ module.exports = router;
  *         $ref: '#/components/responses/NotFound'
  *
  *   delete:
- *     summary: Delete a AppImage
- *     description: Logged in AppImages can delete only themselves. Only admins can delete other AppImages.
- *     tags: [AppImages]
+ *     summary: Delete a user
+ *     description: Logged in serviceTypes can delete only themselves. Only admins can delete other serviceTypes.
+ *     tags: [Service Types]
  *     security:
  *       - bearerAuth: []
  *     parameters:

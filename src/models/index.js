@@ -8,3 +8,4 @@ module.exports.Coupon = require('./coupon.model');
 module.exports.AppImage = require('./appImage.model');
 module.exports.Package = require('./package.model');
 module.exports.Payment = require('./payment.model');
+module.exports.Booking = require('./booking.model');
