@@ -1,9 +1,32 @@
 const Joi = require('joi');
+const { objectId } = require('./custom.validation');
 
 const createBooking = {
   body: Joi.object().keys({
-    name: Joi.string().required(),
-    serviceType: Joi.string().required(),
+    services: Joi.any(),
+    packages: Joi.any(),
+    paymentId: Joi.string().custom(objectId).required(),
+    couponId: Joi.any(),
+    timeSlot: Joi.string().required(),
+    bookingDate: Joi.string().required(),
+    ratings: Joi.number(),
+    isCancelled: Joi.boolean(),
+  }),
+};
+
+const updateBooking = {
+  params: Joi.object().keys({
+    bookingId: Joi.string().custom(objectId).required(),
+  }),
+  body: Joi.object().keys({
+    services: Joi.any(),
+    packages: Joi.any(),
+    paymentId: Joi.string().custom(objectId),
+    couponId: Joi.any(),
+    timeSlot: Joi.string(),
+    bookingDate: Joi.string(),
+    ratings: Joi.number(),
+    isCancelled: Joi.boolean(),
   }),
 };
 
@@ -30,4 +53,5 @@ module.exports = {
   getBookings,
   getBookingById,
   deleteBooking,
+  updateBooking,
 };

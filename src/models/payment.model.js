@@ -31,6 +31,9 @@ const paymentSchema = mongoose.Schema(
     paymentReceiptId: {
       type: String,
     },
+    paymentMethod: {
+      type: String,
+    },
   },
   {
     timestamps: true,

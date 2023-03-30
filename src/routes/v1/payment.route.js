@@ -12,7 +12,7 @@ router
     validate(paymentValidation.createPayment), paymentController.createPayment);
 
 router
-  .route('/verify')
+  .route('/verify/:paymentId')
   .post(auth('manageUsers'), validate(paymentValidation.verifyPayment), paymentController.verifyPayment);
 
 router

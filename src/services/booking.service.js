@@ -21,7 +21,7 @@ const getBookingById = async (id) => {
 };
 
 const getAllBookings = async () => {
-  return Booking.find().populate('serviceType').sort({ $natural: -1 });
+  return Booking.find().populate('paymentId').populate('services').sort({ $natural: -1 });
 };
 
 /**

@@ -20,7 +20,7 @@ const createPayment = catchAsync(async (req, res) => {
   const order = await instance.orders.create({
     amount: requestBody.paymentAmount * 100,
     currency: 'INR',
-    receipt: `receipt-${moment().format('YYMMDD')}`,
+    receipt: `receipt-${moment().format('YYMMDDhmmss')}`,
   });
   if (!order) {
     handleError(httpStatus.FORBIDDEN, 'Payment initialisation is failed', req, res);
@@ -34,21 +34,33 @@ const createPayment = catchAsync(async (req, res) => {
 
 const verifyPayment = catchAsync(async (req, res) => {
   const requestBody = req.body;
+  const { paymentId } = req.params;
   const hashKey = `${requestBody.razorpay_order_id}|${requestBody.razorpay_payment_id}`;
   const expectedSignature = crypto
     .createHmac('sha256', constants.RAZORPAY_TEST_SECRET)
     .update(hashKey.toString())
     .digest('hex');
+
+  // First we need to validate Payment
+  const payment = await paymentService.getPaymentById(paymentId);
+  if (!payment) {
+    handleError(httpStatus.NOT_FOUND, 'Transaction verified but Payment not found', req, res, '');
+    return;
+  }
+
+  // Second we need to verify Signature
   if (expectedSignature !== requestBody.razorpay_signature) {
     handleError(httpStatus.FORBIDDEN, 'Payment not authorised and rejected', req, res, '');
     return;
   }
 
-  const responseData = {
-    signatureVerification: true,
-    ...requestBody,
-  };
-  handleSuccess(httpStatus.CREATED, responseData, 'Payment is verified and authorised.', req, res);
+  // Update the data in payments database
+  requestBody.paymentDate = moment().format('DD/MM/YYYY');
+  requestBody.signatureVerification = true;
+  requestBody.paymentStatus = 'completed';
+  paymentService.updatePayment(paymentId, requestBody).then((paymentResponse) => {
+    handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is verified and completed.', req, res);
+  });
 });
 
 const updatePayment = catchAsync(async (req, res) => {

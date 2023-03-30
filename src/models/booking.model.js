@@ -3,23 +3,45 @@ const { toJSON } = require('./plugins');
 
 const bookingSchema = mongoose.Schema(
   {
-    service: {
+    services: [
+      {
+        serviceId: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: 'Service',
+        },
+        quantity: {
+          type: Number,
+        },
+      },
+    ],
+    packages: [
+      {
+        packageId: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: 'Package',
+        },
+        quantity: {
+          type: Number,
+        },
+      },
+    ],
+    paymentId: {
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Service',
+      ref: 'Payment',
     },
-    user: {
+    couponId: {
+      default: null,
       type: mongoose.SchemaTypes.ObjectId,
-      ref: 'User',
+      ref: 'Coupon',
     },
     timeSlot: {
-      type: mongoose.SchemaTypes.ObjectId,
-      ref: 'Timeslot',
+      type: String,
+    },
+    bookingDate: {
+      type: String,
     },
     ratings: {
       type: Number,
-    },
-    paymentMethod: {
-      type: String,
     },
     isCancelled: {
       type: Boolean,

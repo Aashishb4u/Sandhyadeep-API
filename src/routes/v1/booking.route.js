@@ -15,11 +15,7 @@ router
   .route('/:bookingId')
   .get(auth('getUsers'), validate(bookingValidation.getBookingById), bookingController.getBookingById)
   .patch(auth('manageUsers'), validate(bookingValidation.updateBooking), bookingController.updateBooking)
-  .delete(
-    auth('manageUsers'),
-    validate(bookingValidation.deleteBooking),
-    bookingController.deleteBooking
-  );
+  .delete(auth('manageUsers'), validate(bookingValidation.deleteBooking), bookingController.deleteBooking);
 
 module.exports = router;
 
