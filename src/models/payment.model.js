@@ -43,5 +43,5 @@ const paymentSchema = mongoose.Schema(
 // add plugin that converts mongoose to json
 paymentSchema.plugin(toJSON);
 
-const payment = mongoose.model('payment', paymentSchema);
-module.exports = payment;
+const Payment = mongoose.model('Payment', paymentSchema);
+module.exports = Payment;

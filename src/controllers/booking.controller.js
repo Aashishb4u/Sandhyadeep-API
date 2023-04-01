@@ -11,8 +11,32 @@ const createBooking = catchAsync(async (req, res) => {
 });
 
 const getBookings = catchAsync(async (req, res) => {
-  const result = await bookingService.getAllBookings();
-  res.send(result);
+  const bookingsData = await bookingService.getAllBookings();
+  let filteredBookings = [];
+  if (bookingsData && bookingsData.length) {
+    filteredBookings = bookingsData.map((booking) => {
+      return {
+        ...booking.toObject(),
+        paymentData: booking.paymentId, // <-- replace paymentId with paymentData
+        paymentId: booking.paymentId.id,
+        services: booking.services.map((service) => {
+          const { serviceId,   ...serviceData } = service.toObject();
+          return {
+            ...serviceData,
+            serviceData: serviceId,
+          };
+        }),
+        packages: booking.packages.map((servicePackage) => {
+          const { packageId, ...packageData } = servicePackage.toObject();
+          return {
+            ...packageData,
+            packageData: packageId,
+          };
+        }),
+      };
+    });
+  }
+  res.send(filteredBookings);
 });
 
 const getBookingById = catchAsync(async (req, res) => {

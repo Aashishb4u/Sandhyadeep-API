@@ -19,9 +19,22 @@ const createBooking = async (BookingBody) => {
 const getBookingById = async (id) => {
   return Booking.findById(id);
 };
+//
+// const getAllBookings = async () => {
+//   return Booking.find().populate('services.serviceId').populate('paymentId').sort({ $natural: -1 });
+// };
 
 const getAllBookings = async () => {
-  return Booking.find().populate('paymentId').populate('services').sort({ $natural: -1 });
+  return Booking.find()
+    .populate({
+      path: 'services.serviceId',
+      populate: {
+        path: 'services.serviceData',
+      },
+    })
+    .populate('packages.packageId')
+    .populate('paymentId')
+    .sort({ $natural: -1 });
 };
 
 /**
