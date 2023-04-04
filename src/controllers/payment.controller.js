@@ -16,7 +16,6 @@ const createPayment = catchAsync(async (req, res) => {
     key_id: constants.RAZORPAY_TEST_KEY,
     key_secret: constants.RAZORPAY_TEST_SECRET,
   });
-
   const order = await instance.orders.create({
     amount: requestBody.paymentAmount * 100,
     currency: 'INR',

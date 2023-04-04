@@ -7,12 +7,21 @@ const couponSchema = mongoose.Schema(
       type: String,
       unique: true,
     },
-    discountPrice: {
+    discountPercent: {
       type: Number,
     },
-    description: {
-      type: String,
+    minAmount: {
+      type: Number,
     },
+    maxDiscountAmount: {
+      type: Number,
+    },
+    serviceTypes: [
+      {
+        type: mongoose.SchemaTypes.ObjectId,
+        ref: 'ServiceType',
+      },
+    ],
     expiresOn: {
       type: String,
     },

@@ -1,5 +1,6 @@
 const httpStatus = require('http-status');
 const { Booking } = require('../models');
+const { Payment } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -26,6 +27,25 @@ const getBookingById = async (id) => {
 
 const getAllBookings = async () => {
   return Booking.find()
+    .populate({
+      path: 'services.serviceId',
+      populate: {
+        path: 'services.serviceData',
+      },
+    })
+    .populate('packages.packageId')
+    .populate('paymentId')
+    .sort({ $natural: -1 });
+};
+
+const getAllUserBookings = async (filteredUserId) => {
+  return Booking.find({
+    paymentId: {
+      $in: await Payment.find({
+        userId: filteredUserId,
+      }).distinct('_id'),
+    },
+  })
     .populate({
       path: 'services.serviceId',
       populate: {
@@ -73,4 +93,5 @@ module.exports = {
   updateBookingById,
   deleteBookingById,
   getAllBookings,
+  getAllUserBookings,
 };

@@ -4,17 +4,44 @@ const { objectId } = require('./custom.validation');
 const createCoupon = {
   body: Joi.object().keys({
     name: Joi.string().required(),
-    discountPrice: Joi.number().required(),
+    discountPercent: Joi.number().required(),
+    couponLabel: Joi.string().required(),
+    serviceTypes: Joi.array().required(),
+    expiresOn: Joi.string().required(),
+    minAmount: Joi.number().required(),
+    maxDiscountAmount: Joi.number().required(),
+  }),
+};
+
+const updateCoupon = {
+  params: Joi.object().keys({
+    couponId: Joi.string().custom(objectId).required(),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string(),
+    discountPercent: Joi.number(),
+    couponLabel: Joi.number(),
+    serviceTypes: Joi.array(),
+    expiresOn: Joi.string(),
+    minAmount: Joi.number(),
+    maxDiscountAmount: Joi.number(),
   }),
 };
 
 const getCoupons = {
-  query: Joi.object().keys({
-    name: Joi.string(),
+  body: Joi.object().keys({
+    services: Joi.array().required(),
   }),
 };
 
-const getCoupon = {
+const applyCoupon = {
+  body: Joi.object().keys({
+    services: Joi.array().required(),
+    couponId: Joi.string().required(),
+  }),
+};
+
+const getAllCoupons = {
   params: Joi.object().keys({
     couponId: Joi.string().custom(objectId),
   }),
@@ -29,6 +56,8 @@ const deleteCoupon = {
 module.exports = {
   createCoupon,
   getCoupons,
-  getCoupon,
+  getAllCoupons,
   deleteCoupon,
+  updateCoupon,
+  applyCoupon,
 };

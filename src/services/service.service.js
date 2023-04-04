@@ -20,6 +20,11 @@ const getServiceById = async (id) => {
   return Service.findById(id).populate('subService');
 };
 
+const getServiceByServiceIds = async (serviceData) => {
+  const serviceIds = serviceData.map((v) => v.id);
+  return Service.find({ _id: { $in: serviceIds } }).populate('subService');
+};
+
 const getAllServices = async () => {
   return Service.find().populate('subService').populate('serviceType').sort({ $natural: -1 });
 };
@@ -63,4 +68,5 @@ module.exports = {
   updateServiceById,
   deleteServiceById,
   getAllServices,
+  getServiceByServiceIds,
 };

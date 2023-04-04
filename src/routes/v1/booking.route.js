@@ -12,6 +12,10 @@ router
   .get(auth('getUsers'), validate(bookingValidation.getBookings), bookingController.getBookings);
 
 router
+  .route('/user/:userId')
+  .get(auth('getUsers'), validate(bookingValidation.getUserBookings), bookingController.getUserRelatedBookings);
+
+router
   .route('/:bookingId')
   .get(auth('getUsers'), validate(bookingValidation.getBookingById), bookingController.getBookingById)
   .patch(auth('manageUsers'), validate(bookingValidation.updateBooking), bookingController.updateBooking)

@@ -12,6 +12,9 @@ const bookingSchema = mongoose.Schema(
         quantity: {
           type: Number,
         },
+        price: {
+          type: Number,
+        },
       },
     ],
     packages: [
@@ -21,6 +24,15 @@ const bookingSchema = mongoose.Schema(
           ref: 'Package',
         },
         quantity: {
+          type: Number,
+        },
+        discount: {
+          type: Number,
+        },
+        finalAmount: {
+          type: Number,
+        },
+        totalAmount: {
           type: Number,
         },
       },
@@ -33,6 +45,10 @@ const bookingSchema = mongoose.Schema(
       default: null,
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Coupon',
+    },
+    couponDiscount: {
+      default: 0,
+      type: Number,
     },
     timeSlot: {
       type: String,

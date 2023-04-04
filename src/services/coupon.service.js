@@ -15,8 +15,8 @@ const getAllCoupons = async () => {
   return Coupon.find({});
 };
 
-const getCouponByName = async (rollName) => {
-  return Coupon.findOne({ name: rollName });
+const getCouponByCouponLabel = async (name) => {
+  return Coupon.findOne({ couponLabel: name });
 };
 
 const getCouponById = async (id) => {
@@ -31,10 +31,20 @@ const deleteCouponById = async (roleId) => {
   await role.remove();
   return role;
 };
+
+const getApplicableCoupons = async (services) => {
+  return Coupon.find({
+    serviceTypes: { $in: services.map((service) => service.serviceType) },
+    expiresOn: { $gte: Date.now() }, // apply condition to check if coupon is expired
+    minAmount: { $lte: services.reduce((total, service) => total + service.price * service.counter, 0) }, // apply condition to check if minimum amount criteria is met
+  });
+};
+
 module.exports = {
   createCoupon,
   getAllCoupons,
-  getCouponByName,
+  getCouponByCouponLabel,
   getCouponById,
+  getApplicableCoupons,
   deleteCouponById,
 };

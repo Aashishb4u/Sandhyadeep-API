@@ -36,6 +36,12 @@ const getBookings = {
   }),
 };
 
+const getUserBookings = {
+  query: Joi.object().keys({
+    id: Joi.string(),
+  }),
+};
+
 const getBookingById = {
   params: Joi.object().keys({
     subServiceId: Joi.string(),
@@ -54,4 +60,5 @@ module.exports = {
   getBookingById,
   deleteBooking,
   updateBooking,
+  getUserBookings,
 };
