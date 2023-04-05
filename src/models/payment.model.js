@@ -8,21 +8,27 @@ const paymentSchema = mongoose.Schema(
       ref: 'User',
     },
     razorpayPaymentId: {
+      default: null,
       type: String,
     },
     razorpayOrderId: {
+      default: null,
       type: String,
     },
     razorpaySignature: {
+      default: null,
       type: String,
     },
     paymentAmount: {
+      default: 0,
       type: Number,
+      required: true,
     },
     paymentDate: {
       type: String,
     },
     signatureVerification: {
+      default: false,
       type: Boolean,
     },
     paymentStatus: {

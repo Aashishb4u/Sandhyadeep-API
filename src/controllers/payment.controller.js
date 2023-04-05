@@ -10,7 +10,7 @@ const { picUpload } = require('../utils/fileUpload');
 const pick = require('../utils/pick');
 const constants = require('../utils/constants');
 
-const createPayment = catchAsync(async (req, res) => {
+const createOnlinePayment = catchAsync(async (req, res) => {
   const requestBody = req.body;
   const instance = new RazorPay({
     key_id: constants.RAZORPAY_TEST_KEY,
@@ -26,6 +26,15 @@ const createPayment = catchAsync(async (req, res) => {
   }
   requestBody.razorpayOrderId = order.id;
   requestBody.paymentReceiptId = order.receipt;
+  paymentService.createPayment(requestBody).then((paymentResponse) => {
+    handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is Initiated.', req, res);
+  });
+});
+
+const createOfflinePayment = catchAsync(async (req, res) => {
+  const requestBody = req.body;
+  requestBody.paymentStatus = 'completed';
+  requestBody.paymentReceiptId = `receipt-${moment().format('YYMMDDhmmss')}`;
   paymentService.createPayment(requestBody).then((paymentResponse) => {
     handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is Initiated.', req, res);
   });
@@ -79,7 +88,8 @@ const updatePayment = catchAsync(async (req, res) => {
 });
 
 module.exports = {
-  createPayment,
+  createOnlinePayment,
+  createOfflinePayment,
   updatePayment,
   verifyPayment,
 };

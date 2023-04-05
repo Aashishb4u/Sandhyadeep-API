@@ -5,6 +5,8 @@ const createPayment = {
   body: Joi.object().keys({
     name: Joi.string(),
     paymentAmount: Joi.number(),
+    paymentMethod: Joi.string(),
+    paymentDate: Joi.string(),
     description: Joi.number(),
     currency: Joi.string(),
     paymentStatus: Joi.string(),
@@ -20,6 +22,8 @@ const updatePayment = {
   body: Joi.object().keys({
     name: Joi.string(),
     paymentAmount: Joi.number(),
+    paymentMethod: Joi.string(),
+    paymentDate: Joi.string(),
     description: Joi.number(),
     currency: Joi.string(),
     paymentStatus: Joi.string(),

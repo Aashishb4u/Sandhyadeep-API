@@ -7,9 +7,14 @@ const paymentController = require('../../controllers/payment.controller');
 const router = express.Router();
 // AppImage Authorization: Bearer <token>
 router
-  .route('/')
+  .route('/online')
   .post(auth('manageUsers'),
-    validate(paymentValidation.createPayment), paymentController.createPayment);
+    validate(paymentValidation.createPayment), paymentController.createOnlinePayment);
+
+router
+  .route('/payOnService')
+  .post(auth('manageUsers'),
+    validate(paymentValidation.createPayment), paymentController.createOfflinePayment);
 
 router
   .route('/verify/:paymentId')
