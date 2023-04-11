@@ -22,6 +22,9 @@ const verifyOtp = catchAsync(async (req, res) => {
   const { userId } = req.body;
   const { otp } = req.body;
   const user = await userService.getUserById(userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
   if (user.otp !== otp) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Invalid OTP');
   }
@@ -30,12 +33,14 @@ const verifyOtp = catchAsync(async (req, res) => {
 });
 
 const resendOtp = catchAsync(async (req, res) => {
-  const user = await userService.getUserByNumber(req.body);
+  const {userId} = req.body;
+  const user = await userService.getUserById(userId);
+  const updatedOtpCount = user.otpCount + 1;
   const newOtp = await otpService.createRandomOtp();
-  await userService.updateUserById(user.id, { otp: newOtp });
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
+  await userService.updateUserById(user.id, { otp: newOtp, otpCount: updatedOtpCount});
   res.status(httpStatus.CREATED).send({ otp: newOtp, userId: user._id });
 });
 

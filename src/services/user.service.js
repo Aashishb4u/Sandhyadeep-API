@@ -74,12 +74,8 @@ const updateUserById = async (userId, updateBody) => {
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  if (updateBody.mobileNo && (await User.isPhoneDuplicate(updateBody.mobileNo, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Mobile Number already taken');
-  }
   updateBody.isRegistered = true;
   updateBody.isWhatsAppAvailable = isWhatsAppAvailable || updateBody.isWhatsAppAvailable;
-  updateBody.isRegistered = true;
   Object.assign(user, updateBody);
   await user.save();
   return user;
