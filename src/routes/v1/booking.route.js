@@ -21,6 +21,10 @@ router
   .patch(auth('manageUsers'), validate(bookingValidation.updateBooking), bookingController.updateBooking)
   .delete(auth('manageUsers'), validate(bookingValidation.deleteBooking), bookingController.deleteBooking);
 
+router
+  .route('/cancel/:bookingId')
+  .post(auth('manageUsers'), validate(bookingValidation.cancelBooking), bookingController.cancelBooking);
+
 module.exports = router;
 
 /**

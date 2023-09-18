@@ -48,8 +48,20 @@ const verifyPayment = {
   }),
 };
 
+const refundPayment = {
+  params: Joi.object().keys({
+    paymentId: Joi.string().custom(objectId).required(),
+  }),
+  body: Joi.object().keys({
+    razorpay_payment_id: Joi.any(),
+    razorpay_order_id: Joi.any(),
+    razorpay_signature: Joi.any(),
+  }),
+};
+
 module.exports = {
   createPayment,
   updatePayment,
+  refundPayment,
   verifyPayment,
 };

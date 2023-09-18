@@ -56,6 +56,13 @@ const bookingSchema = mongoose.Schema(
     bookingDate: {
       type: String,
     },
+    bookingOtp: {
+      type: String,
+    },
+    status: {
+      type: String,
+      default: 'initiated'
+    },
     ratings: {
       type: Number,
     },

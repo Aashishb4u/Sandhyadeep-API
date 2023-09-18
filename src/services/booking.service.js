@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const { Booking } = require('../models');
 const { Payment } = require('../models');
+const { paymentService } = require('../services');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -59,18 +60,28 @@ const getAllUserBookings = async (filteredUserId) => {
 
 /**
  * Update subServiceType by id
- * @param subServiceId
+ * @param bookingId
  * @param {Object} updateBody
  * @returns {Promise<Booking>}
  */
-const updateBookingById = async (subServiceId, updateBody) => {
-  const subServiceType = await getBookingById(subServiceId);
-  if (!subServiceType) {
+const updateBookingById = async (bookingId, updateBody) => {
+  const bookingType = await getBookingById(bookingId);
+  if (!bookingType) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Booking not found');
   }
-  Object.assign(subServiceType, updateBody);
-  await subServiceType.save();
-  return subServiceType;
+  Object.assign(bookingType, updateBody);
+  await bookingType.save();
+  return bookingType;
+};
+
+const cancelBookingById = async (id, booking) => {
+  let paymentStatus = null;
+  let updatedBooking = await updateBookingById(id, booking);
+  if(updatedBooking) {
+    const paymentId = updatedBooking.paymentId;
+    paymentStatus = await paymentService.updatePayment(paymentId, {paymentStatus: 'refund_initiated'})
+  }
+  return paymentStatus;
 };
 
 /**
@@ -94,4 +105,5 @@ module.exports = {
   deleteBookingById,
   getAllBookings,
   getAllUserBookings,
+  cancelBookingById,
 };

@@ -21,6 +21,10 @@ router
   .post(auth('manageUsers'), validate(paymentValidation.verifyPayment), paymentController.verifyPayment);
 
 router
+  .route('/refund/:paymentId')
+  .post(auth('manageUsers'), validate(paymentValidation.refundPayment), paymentController.refundPayment);
+
+router
   .route('/:paymentId')
   // .get(auth('getUsers'), validate(userValidation.getUserById), userController.getUserById)
   .patch(auth('manageUsers'), validate(paymentValidation.updatePayment), paymentController.updatePayment);

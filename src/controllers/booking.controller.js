@@ -6,6 +6,7 @@ const { bookingService, couponService, serviceService } = require('../services')
 const {handleSuccess, handleError} = require('../utils/SuccessHandler');
 
 const createBooking = catchAsync(async (req, res) => {
+  req.body.bookingOtp = Math.floor(1000 + Math.random() * 9000);
   const booking = await bookingService.createBooking(req.body);
   handleSuccess(httpStatus.CREATED, { booking }, 'Booking created successfully.', req, res);
 });
@@ -69,6 +70,19 @@ const updateBooking = catchAsync(async (req, res) => {
   handleSuccess(httpStatus.CREATED, {booking}, 'Booking updated successfully.', req, res);
 });
 
+const cancelBooking = catchAsync(async (req, res) => {
+  const {bookingId} = req.params;
+  const booking = await bookingService.getBookingById(bookingId);
+  if (!booking) {
+    handleError(httpStatus.NOT_FOUND, 'Booking not found', req, res);
+    return;
+  }
+  booking.status = 'cancelled';
+  booking.isCancelled = true;
+  const paymentStatus = await bookingService.cancelBookingById(req.params.bookingId, booking);
+  handleSuccess(httpStatus.CREATED, {paymentStatus}, 'Booking cancelled successfully.', req, res);
+});
+
 const deleteBooking = catchAsync(async (req, res) => {
   await bookingService.deleteBookingById(req.params.bookingId);
   handleSuccess(httpStatus.NO_CONTENT, {}, 'Booking deleted successfully.', req, res);
@@ -78,6 +92,7 @@ const deleteBooking = catchAsync(async (req, res) => {
 module.exports = {
   createBooking,
   getBookings,
+  cancelBooking,
   getBookingById,
   updateBooking,
   deleteBooking,

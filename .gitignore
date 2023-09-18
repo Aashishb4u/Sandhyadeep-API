@@ -9,5 +9,7 @@ yarn-error.log
 !.env*.example
 !src/public
 src/public/*
+.idea*
+.idea/workspace.xml
 # Code coverage
 coverage

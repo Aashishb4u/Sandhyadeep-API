@@ -11,6 +11,8 @@ const createBooking = {
     bookingDate: Joi.string().required(),
     ratings: Joi.number(),
     isCancelled: Joi.boolean(),
+    status: Joi.string(),
+    keywordUrl: Joi.string(),
   }),
 };
 
@@ -27,6 +29,24 @@ const updateBooking = {
     bookingDate: Joi.string(),
     ratings: Joi.number(),
     isCancelled: Joi.boolean(),
+    status: Joi.string(),
+  }),
+};
+
+const cancelBooking = {
+  params: Joi.object().keys({
+    bookingId: Joi.string().custom(objectId).required(),
+  }),
+  body: Joi.object().keys({
+    services: Joi.any(),
+    packages: Joi.any(),
+    paymentId: Joi.string().custom(objectId),
+    couponId: Joi.any(),
+    timeSlot: Joi.string(),
+    bookingDate: Joi.string(),
+    ratings: Joi.number(),
+    isCancelled: Joi.boolean(),
+    status: Joi.string(),
   }),
 };
 
@@ -61,4 +81,5 @@ module.exports = {
   deleteBooking,
   updateBooking,
   getUserBookings,
+  cancelBooking,
 };

@@ -33,7 +33,7 @@ const createOnlinePayment = catchAsync(async (req, res) => {
 
 const createOfflinePayment = catchAsync(async (req, res) => {
   const requestBody = req.body;
-  requestBody.paymentStatus = 'completed';
+  requestBody.paymentStatus = 'pending';
   requestBody.paymentReceiptId = `receipt-${moment().format('YYMMDDhmmss')}`;
   paymentService.createPayment(requestBody).then((paymentResponse) => {
     handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is Initiated.', req, res);
@@ -65,10 +65,35 @@ const verifyPayment = catchAsync(async (req, res) => {
   // Update the data in payments database
   requestBody.paymentDate = moment().format('DD/MM/YYYY');
   requestBody.signatureVerification = true;
-  requestBody.paymentStatus = 'completed';
+  requestBody.paymentStatus = 'paid';
   paymentService.updatePayment(paymentId, requestBody).then((paymentResponse) => {
     handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is verified and completed.', req, res);
   });
+});
+
+const refundPayment = catchAsync(async (req, res) => {
+  const requestBody = req.body;
+  const {razorPaymentId} = req.body.razorpay_payment_id;
+  const { paymentId } = req.params;
+
+  // First we need to validate Payment
+  const payment = await paymentService.getPaymentById(paymentId);
+  if (!payment) {
+    handleError(httpStatus.NOT_FOUND, 'Transaction verified but Payment not found', req, res, '');
+    return;
+  }
+  const instance = new RazorPay({
+    key_id: constants.RAZORPAY_TEST_KEY,
+    key_secret: constants.RAZORPAY_TEST_SECRET,
+  });
+  const order = await instance.refund({
+    amount: requestBody.paymentAmount * 100,
+    payment_id: razorPaymentId
+  });
+  console.log(order)  ;
+  // paymentService.updatePayment(paymentId, requestBody).then((paymentResponse) => {
+  //   handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is verified and completed.', req, res);
+  // });
 });
 
 const updatePayment = catchAsync(async (req, res) => {
@@ -92,4 +117,5 @@ module.exports = {
   createOfflinePayment,
   updatePayment,
   verifyPayment,
+  refundPayment,
 };
