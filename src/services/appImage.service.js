@@ -20,8 +20,22 @@ const getAppImageById = async (id) => {
   return AppImage.findById(id);
 };
 
-const getAllAppImages = async (filter) => {
-  return AppImage.find(filter).sort({ $natural: -1 });
+const getAllAppImages = async (filter, page, limit) => {
+  const skip = (page - 1) * limit;
+  const totalCount = await AppImage.countDocuments(filter);
+  const totalPages = Math.ceil(totalCount / limit);
+
+  const images = await AppImage.find(filter)
+      .sort({ $natural: -1 })
+      .skip(skip)
+      .limit(limit);
+
+  return {
+    images,
+    page,
+    totalPages,
+    totalCount,
+  };
 };
 
 /**

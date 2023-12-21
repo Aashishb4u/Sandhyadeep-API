@@ -11,6 +11,8 @@ const getAppImages = {
   query: Joi.object().keys({
     name: Joi.string(),
     assetLocation: Joi.string(),
+    page: Joi.any(),
+    limit: Joi.any(),
   }),
 };
 

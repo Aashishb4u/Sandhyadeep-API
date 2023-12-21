@@ -26,7 +26,9 @@ const createAppImage = catchAsync(async (req, res) => {
 
 const getAppImages = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'assetLocation']);
-  const result = await appImageService.getAllAppImages(filter);
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 10; // You can adjust the default limit as needed
+  const result = await appImageService.getAllAppImages(filter, page, limit);
   res.send(result);
 });
 
