@@ -23,8 +23,8 @@ const getPaymentById = async (id) => {
   return Payment.findById(id);
 };
 
-const getPaymentByOrderId = async (orderIdToMatch) => {
-  return Payment.findOne({ razorpayOrderId: orderIdToMatch })
+const getTransactionLogByOrderId = async (orderIdToMatch) => {
+  return TransactionLog.findOne({ razorpayOrderId: orderIdToMatch })
 };
 
 const updatePaymentByOrderId = async (orderIdToMatch, updateBody) => {
@@ -51,7 +51,7 @@ module.exports = {
   createPayment,
   updatePayment,
   getPaymentById,
-  getPaymentByOrderId,
+  getTransactionLogByOrderId,
   updatePaymentByOrderId,
   createTransactionLog
 };

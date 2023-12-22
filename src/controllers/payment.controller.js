@@ -4,7 +4,7 @@ const moment = require('moment');
 const crypto = require("crypto");
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { paymentService } = require('../services');
+const { paymentService, bookingService } = require('../services');
 const { handleSuccess, handleError } = require('../utils/SuccessHandler');
 const { picUpload } = require('../utils/fileUpload');
 const pick = require('../utils/pick');
@@ -145,19 +145,45 @@ const verificationSuccessHook = catchAsync(async (req, res) => {
     const requestBody = req.body;
     if (requestBody && requestBody.event && requestBody.event === 'payment.captured') {
       const orderId = requestBody.payload.payment.entity.order_id;
-      const payment = await paymentService.getPaymentByOrderId(orderId);
-      if (!payment) {
-        handleError(httpStatus.NOT_FOUND, 'Payment not found', req, res, '');
-        return;
+      const transactionLog = await paymentService.getTransactionLogByOrderId(orderId);
+
+      if (!transactionLog) {
+        return res.status(404).json({ error: 'Transaction log not found' });
       }
-      payment.paymentDate = moment().format('DD/MM/YYYY');
-      payment.signatureVerification = true;
-      payment.paymentStatus = 'paid';
-      console.log(payment);
-      paymentService.updatePaymentByOrderId(orderId, payment).then((paymentResponse) => {
-        console.log(paymentResponse);
-      });
+
+      const paymentData = {
+        userId: transactionLog.userId,
+        razorpayPaymentId: requestBody.payload.payment.entity.id,
+        razorpayOrderId: transactionLog.razorpayOrderId,
+        razorpaySignature: transactionLog.razorpaySignature,
+        paymentAmount: transactionLog.paymentAmount,
+        paymentDate: transactionLog.paymentDate,
+        signatureVerification: true,
+        paymentStatus: 'complete', // Assuming transaction status represents payment status
+        paymentReceiptId: transactionLog.paymentReceiptId,
+        paymentMethod: transactionLog.paymentMethod,
+      };
+      const paymentResponse = await paymentService.createPayment(paymentData);
+
+      // Create a new Booking document
+      const bookingData = {
+        services: transactionLog.services,
+        packages: transactionLog.packages,
+        paymentId: paymentResponse._id, // Assuming you want to link the payment to the booking
+        couponId: transactionLog.couponId,
+        couponDiscount: transactionLog.couponDiscount,
+        timeSlot: transactionLog.timeSlot,
+        bookingDate: transactionLog.bookingDate,
+        bookingOtp: Math.floor(1000 + Math.random() * 9000),
+        status: 'paid',
+        ratings: 0,
+        isCancelled: false,
+      };
+      const newBooking = await bookingService.createBooking(bookingData);
+
       require('fs').writeFileSync('payment2.json', JSON.stringify(req.body, null, 4))
+      require('fs').writeFileSync('latest_booking.json', JSON.stringify(newBooking, null, 4))
+      require('fs').writeFileSync('latest_payment.json', JSON.stringify(paymentResponse, null, 4))
     }
   } else {
     handleError(httpStatus.FORBIDDEN, 'Payment not authorised and rejected', req, res, '');
