@@ -6,10 +6,23 @@ const paymentController = require('../../controllers/payment.controller');
 
 const router = express.Router();
 // AppImage Authorization: Bearer <token>
+router.post('/payment-verification',
+  paymentController.verificationSuccessHook);
+
+router.post('/payment-failed',
+  paymentController.verificationFailed);
+
 router
-  .route('/online')
+  .route('/initiate')
   .post(auth('manageUsers'),
-    validate(paymentValidation.createPayment), paymentController.createOnlinePayment);
+    validate(paymentValidation.initiatePayment),
+    paymentController.initiatePayment);
+
+router
+  .route('/transaction-log')
+  .post(auth('manageUsers'),
+    validate(paymentValidation.addTransactionLog),
+    paymentController.addTransactionLog);
 
 router
   .route('/payOnService')
@@ -17,8 +30,13 @@ router
     validate(paymentValidation.createPayment), paymentController.createOfflinePayment);
 
 router
-  .route('/verify/:paymentId')
-  .post(auth('manageUsers'), validate(paymentValidation.verifyPayment), paymentController.verifyPayment);
+  .route('/verify')
+  .post(auth('manageUsers'),
+    validate(paymentValidation.verifyPayment), paymentController.verifyPayment);
+
+// router
+//   .route('/payment-verification')
+//   .post(auth('manageUsers'), paymentController.verificationHook);
 
 router
   .route('/refund/:paymentId')

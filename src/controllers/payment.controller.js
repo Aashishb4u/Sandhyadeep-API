@@ -31,6 +31,34 @@ const createOnlinePayment = catchAsync(async (req, res) => {
   });
 });
 
+const initiatePayment = catchAsync(async (req, res) => {
+  const requestBody = req.body;
+  const instance = new RazorPay({
+    key_id: constants.RAZORPAY_TEST_KEY,
+    key_secret: constants.RAZORPAY_TEST_SECRET,
+  });
+
+  const order = await instance.orders.create({
+    amount: requestBody.paymentAmount * 100,
+    currency: 'INR',
+    receipt: `receipt-${moment().format('YYMMDDhmmss')}`,
+  });
+
+  handleSuccess(httpStatus.CREATED,
+    {
+      razorpayOrderId: order.id,
+      paymentReceiptId: order.receipt,
+      paymentAmount: requestBody.paymentAmount
+    }, 'Payment is Initiated.', req, res);
+});
+
+const addTransactionLog = catchAsync(async (req, res) => {
+  const requestBody = req.body;
+  paymentService.createTransactionLog(requestBody).then((response) => {
+    handleSuccess(httpStatus.CREATED, response, 'Transaction created Successfully', req, res);
+  });
+});
+
 const createOfflinePayment = catchAsync(async (req, res) => {
   const requestBody = req.body;
   requestBody.paymentStatus = 'pending';
@@ -49,26 +77,15 @@ const verifyPayment = catchAsync(async (req, res) => {
     .update(hashKey.toString())
     .digest('hex');
 
-  // First we need to validate Payment
-  const payment = await paymentService.getPaymentById(paymentId);
-  if (!payment) {
-    handleError(httpStatus.NOT_FOUND, 'Transaction verified but Payment not found', req, res, '');
-    return;
-  }
-
-  // Second we need to verify Signature
+  // verify Signature
   if (expectedSignature !== requestBody.razorpay_signature) {
     handleError(httpStatus.FORBIDDEN, 'Payment not authorised and rejected', req, res, '');
     return;
   }
 
-  // Update the data in payments database
-  requestBody.paymentDate = moment().format('DD/MM/YYYY');
-  requestBody.signatureVerification = true;
-  requestBody.paymentStatus = 'paid';
-  paymentService.updatePayment(paymentId, requestBody).then((paymentResponse) => {
-    handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is verified and completed.', req, res);
-  });
+  handleSuccess(httpStatus.CREATED,
+    {signatureVerification: requestBody.razorpay_signature},
+    'Payment is verified and completed.', req, res);
 });
 
 const refundPayment = catchAsync(async (req, res) => {
@@ -90,7 +107,7 @@ const refundPayment = catchAsync(async (req, res) => {
     amount: requestBody.paymentAmount * 100,
     payment_id: razorPaymentId
   });
-  console.log(order)  ;
+  console.log(order);
   // paymentService.updatePayment(paymentId, requestBody).then((paymentResponse) => {
   //   handleSuccess(httpStatus.CREATED, paymentResponse, 'Payment is verified and completed.', req, res);
   // });
@@ -106,11 +123,48 @@ const updatePayment = catchAsync(async (req, res) => {
   let requestBody = req.body;
   requestBody.paymentDate = moment().format('DD/MM/YYYY');
   requestBody.signatureVerification = true;
-  requestBody.paymentStatus = 'completed';
+  requestBody.paymentStatus = 'paid';
   paymentService.updatePayment(paymentId, requestBody).then((paymentResponse) => {
     handleSuccess(httpStatus.CREATED, { paymentResponse }, 'Payment is completed and saved.', req, res);
   });
 });
+
+const verificationFailed = catchAsync(async (req, res) => {
+  console.log(req.body);
+  require('fs').writeFileSync('payment-failed-2.json', JSON.stringify(req.body, null, 4))
+  res.json({ status: 'ok' });
+});
+
+const verificationSuccessHook = catchAsync(async (req, res) => {
+  const expectedSignature = crypto
+      .createHmac('sha256', constants.RAZORPAY_TEST_SECRET)
+      .update(JSON.stringify(req.body))
+      .digest('hex');
+
+  if (expectedSignature === req.headers['x-razorpay-signature']) {
+    const requestBody = req.body;
+    if (requestBody && requestBody.event && requestBody.event === 'payment.captured') {
+      const orderId = requestBody.payload.payment.entity.order_id;
+      const payment = await paymentService.getPaymentByOrderId(orderId);
+      if (!payment) {
+        handleError(httpStatus.NOT_FOUND, 'Payment not found', req, res, '');
+        return;
+      }
+      payment.paymentDate = moment().format('DD/MM/YYYY');
+      payment.signatureVerification = true;
+      payment.paymentStatus = 'paid';
+      console.log(payment);
+      paymentService.updatePaymentByOrderId(orderId, payment).then((paymentResponse) => {
+        console.log(paymentResponse);
+      });
+      require('fs').writeFileSync('payment2.json', JSON.stringify(req.body, null, 4))
+    }
+  } else {
+    handleError(httpStatus.FORBIDDEN, 'Payment not authorised and rejected', req, res, '');
+    return;
+  }
+  res.json({ status: 'ok' });
+})
 
 module.exports = {
   createOnlinePayment,
@@ -118,4 +172,8 @@ module.exports = {
   updatePayment,
   verifyPayment,
   refundPayment,
+  verificationSuccessHook,
+  verificationFailed,
+  initiatePayment,
+  addTransactionLog
 };
