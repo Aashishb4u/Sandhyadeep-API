@@ -10,10 +10,16 @@ const ApiError = require('../utils/ApiError');
 const createUser = async (userBody) => {
   const { email } = userBody;
   const emailTaken = await User.isEmailTaken(email);
+
   if (emailTaken) {
     throw new ApiError(httpStatus.CONFLICT, 'Email Already Taken');
   }
-  return User.create(userBody);
+
+  // Use await when creating the user
+  const user = await User.create(userBody);
+
+  // Use await when populating the roleId
+  return await getUserById(user.id);
 };
 
 const getUserByNumber = async (userBody) => {
