@@ -8,6 +8,11 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<User>}
  */
 const createUser = async (userBody) => {
+  const { email } = userBody;
+  const emailTaken = await User.isEmailTaken(email);
+  if (emailTaken) {
+    throw new ApiError(httpStatus.CONFLICT, 'Email Already Taken');
+  }
   return User.create(userBody);
 };
 
@@ -74,7 +79,6 @@ const updateUserById = async (userId, updateBody) => {
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  updateBody.isRegistered = true;
   updateBody.isWhatsAppAvailable = isWhatsAppAvailable || updateBody.isWhatsAppAvailable;
   Object.assign(user, updateBody);
   await user.save();
@@ -94,6 +98,7 @@ const deleteUserById = async (userId) => {
   await user.remove();
   return user;
 };
+
 
 module.exports = {
   createUser,

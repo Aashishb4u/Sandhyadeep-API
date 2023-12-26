@@ -20,21 +20,13 @@ const userSchema = mongoose.Schema(
     email: {
       type: String,
       trim: true,
-      validate(value) {
-        if (!validator.isEmail(value)) {
-          throw new Error('Invalid email');
-        }
-      },
     },
     roleId: { type: schema.Types.ObjectId, ref: 'Role' },
     dateOfBirth: { type: Date },
-    age: { type: String, default: "" },
-    otp: { type: String },
     otpCount: { type: Number, default: 0 },
     imageUrl: { type: String, default: '' },
     isActive: { type: Boolean, default: false },
     isWhatsAppAvailable: { type: Boolean, default: false },
-    isRegistered: { type: Boolean, default: false },
     isEmailVerified: {
       type: Boolean,
       default: false,

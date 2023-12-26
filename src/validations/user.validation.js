@@ -37,6 +37,18 @@ const updateUser = {
   }),
 };
 
+const signUpUser = {
+  params: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string(),
+    email: Joi.string(),
+    dateOfBirth: Joi.date(),
+    isWhatsAppAvailable: Joi.boolean(),
+  }),
+};
+
 const deleteUser = {
   params: Joi.object().keys({
     userId: Joi.string().custom(objectId),
@@ -49,4 +61,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  signUpUser
 };

@@ -12,6 +12,11 @@ router.post('/verifyOtp', validate(authValidation.verifyOtp), authController.ver
 router.post('/login', validate(authValidation.login), authController.login);
 router.post('/logout', validate(authValidation.logout), authController.logout);
 router.post('/refresh-tokens', validate(authValidation.refreshTokens), authController.refreshTokens);
+router.post('/signup/:oneTimeKey', validate(authValidation.signUp), authController.signUpUser);
+//   .route('/signup/:userId')
+//   .post(a
+// rouuth('manageUsers'), validate(userValidation.updateUser), userController.signUpUser)
+
 // router.post('/forgot-password', validate(authValidation.forgotPassword), authController.forgotPassword);
 // router.post('/reset-password', validate(authValidation.resetPassword), authController.resetPassword);
 // router.post('/send-verification-email', auth(), authController.sendVerificationEmail);

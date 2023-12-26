@@ -4,19 +4,18 @@ const { password, objectId } = require('./custom.validation');
 const register = {
   body: Joi.object().keys({
     mobileNo: Joi.string().required(),
-    isWhatsAppAvailable: Joi.boolean(),
   }),
 };
 
 const resendOtp = {
   body: Joi.object().keys({
-    userId: Joi.string().custom(objectId).required(),
+    mobileNo: Joi.string().required(),
   }),
 };
 
 const verifyOtp = {
   body: Joi.object().keys({
-    userId: Joi.string().required(),
+    mobileNo: Joi.string().required(),
     otp: Joi.string().required(),
   }),
 };
@@ -39,6 +38,18 @@ const refreshTokens = {
     refreshToken: Joi.string().required(),
   }),
 };
+
+const signUp = {
+  params: Joi.object().keys({
+    oneTimeKey: Joi.any().required(),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string(),
+    email: Joi.string(),
+    dateOfBirth: Joi.string(),
+    mobileNo: Joi.any(),
+  })
+}
 
 const forgotPassword = {
   body: Joi.object().keys({
@@ -70,5 +81,6 @@ module.exports = {
   resetPassword,
   verifyEmail,
   verifyOtp,
-  resendOtp
+  resendOtp,
+  signUp
 };

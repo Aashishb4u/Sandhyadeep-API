@@ -10,3 +10,4 @@ module.exports.Package = require('./package.model');
 module.exports.Payment = require('./payment.model');
 module.exports.Booking = require('./booking.model');
 module.exports.TransactionLog = require('./transaction-log.model');
+module.exports.Otp = require('./otp.model');
