@@ -22,6 +22,8 @@ const updatePackage = {
 const getPackages = {
   query: Joi.object().keys({
     name: Joi.string(),
+    page: Joi.any(),
+    limit: Joi.any(),
   }),
 };
 

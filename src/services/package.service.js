@@ -24,6 +24,9 @@ const getAllPackages = async (filter) => {
   return Package.find(filter).populate('services').sort({ $natural: -1 });
 };
 
+const getPackages = async (filter, options) => {
+  return Package.paginate(filter, options);
+};
 /**
  * Update serviceType by id
  * @param {ObjectId} servicePackageId
@@ -60,4 +63,5 @@ module.exports = {
   updateServiceById,
   deletePackageById,
   getAllPackages,
+  getPackages
 };

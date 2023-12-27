@@ -12,6 +12,10 @@ router
   .get(auth('getUsers'), validate(packageValidation.getPackages), packageController.getPackages);
 
 router
+  .route('/all')
+  .get(auth('getUsers'), validate(packageValidation.getPackages), packageController.getAllPackages);
+
+router
   .route('/:packageId')
   .get(auth('getUsers'), validate(packageValidation.getPackageById), packageController.getPackageById)
   .patch(auth('manageUsers'), validate(packageValidation.updatePackage), packageController.updatePackage)
