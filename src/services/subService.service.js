@@ -24,6 +24,11 @@ const getAllSubServices = async () => {
   return SubService.find().populate('serviceType').sort({ $natural: -1 });
 };
 
+const getSubServices = async (filter, options) => {
+  return SubService.paginate(filter, options);
+  // return SubService.find().populate('serviceType').sort({ $natural: -1 });
+};
+
 /**
  * Update subServiceType by id
  * @param subServiceId
@@ -60,4 +65,5 @@ module.exports = {
   updateSubServiceById,
   deleteSubServiceById,
   getAllSubServices,
+  getSubServices
 };

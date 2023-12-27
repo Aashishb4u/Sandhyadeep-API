@@ -15,10 +15,24 @@ const createService = {
   }),
 };
 
-const getServices = {
+const getAllServices = {
   query: Joi.object().keys({
     name: Joi.string(),
   }),
+};
+
+const getServices = {
+  query: Joi.object().keys({
+    name: Joi.string(),
+    page: Joi.any(),
+    limit: Joi.any(),
+  }),
+};
+
+const updateService = {
+  body: Joi.object().keys({
+
+  })
 };
 
 const getServiceById = {
@@ -45,4 +59,6 @@ module.exports = {
   getService,
   deleteService,
   getServiceById,
+  getAllServices,
+  updateService
 };

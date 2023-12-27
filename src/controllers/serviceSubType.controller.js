@@ -11,8 +11,21 @@ const createSubService = catchAsync(async (req, res) => {
 
 });
 
-const getSubServices = catchAsync(async (req, res) => {
+const getAllSubServices = catchAsync(async (req, res) => {
   const result = await subServiceService.getAllSubServices();
+  res.send(result);
+});
+
+const getSubServices = catchAsync(async (req, res) => {
+  const filter = pick(req.query, ['name']);
+  const options = {
+    sortBy: '$natural:desc', // Specify your sorting criteria
+    page: req.query.page || 1, // Page number
+    limit: req.query.limit || 5, // Number of documents per page
+    populate: 'serviceType', // Fields to populate - Add more fields (,) separated
+    // example - populate: 'services, products, x, y, z',
+  };
+  const result = await subServiceService.getSubServices(filter, options);
   res.send(result);
 });
 
@@ -40,4 +53,5 @@ module.exports = {
   getSubServiceById,
   updateSubService,
   deleteSubService,
+  getAllSubServices
 };

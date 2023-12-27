@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {toJSON} = require('./plugins');
+const {toJSON, paginate} = require('./plugins');
 
 const subServiceSchema = mongoose.Schema(
   {
@@ -18,6 +18,7 @@ const subServiceSchema = mongoose.Schema(
 
 // add plugin that converts mongoose to json
 subServiceSchema.plugin(toJSON);
+subServiceSchema.plugin(paginate);
 
 const SubService = mongoose.model('SubService', subServiceSchema);
 module.exports = SubService;

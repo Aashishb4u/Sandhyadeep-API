@@ -10,6 +10,15 @@ const createSubService = {
 const getSubServices = {
   query: Joi.object().keys({
     id: Joi.string(),
+    name: Joi.string(),
+    page: Joi.any(),
+    limit: Joi.any(),
+  }),
+};
+
+const getAllSubServices = {
+  query: Joi.object().keys({
+    id: Joi.string(),
   }),
 };
 
@@ -30,4 +39,5 @@ module.exports = {
   getSubServices,
   getSubServiceById,
   deleteSubService,
+  getAllSubServices
 };

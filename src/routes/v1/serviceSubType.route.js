@@ -12,6 +12,11 @@ router
   .get(auth('getUsers'), validate(serviceSubTypeValidation.getSubServices), serviceSubTypeController.getSubServices);
 
 router
+  .route('/all')
+  .get(auth('getUsers'), validate(serviceSubTypeValidation.getAllSubServices), serviceSubTypeController.getAllSubServices);
+
+
+router
   .route('/:subServiceId')
   .get(auth('getUsers'), validate(serviceSubTypeValidation.getSubServiceById), serviceSubTypeController.getSubServiceById)
   .patch(auth('manageUsers'), validate(serviceSubTypeValidation.updateSubService), serviceSubTypeController.updateSubService)
