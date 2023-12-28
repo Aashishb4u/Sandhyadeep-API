@@ -7,6 +7,13 @@ const createAppImage = {
   }),
 };
 
+const getAllAppImages = {
+  query: Joi.object().keys({
+    name: Joi.string(),
+    assetLocation: Joi.string()
+  }),
+};
+
 const getAppImages = {
   query: Joi.object().keys({
     name: Joi.string(),
@@ -33,4 +40,5 @@ module.exports = {
   getAppImages,
   getAppImage,
   deleteAppImage,
+  getAllAppImages
 };

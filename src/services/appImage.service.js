@@ -20,7 +20,11 @@ const getAppImageById = async (id) => {
   return AppImage.findById(id);
 };
 
-const getAllAppImages = async (filter, page, limit) => {
+const getAllAppImages = async (filter) => {
+  return AppImage.find(filter).sort({ $natural: -1 });
+};
+
+const getAppImages = async (filter, page, limit) => {
   const skip = (page - 1) * limit;
   const totalCount = await AppImage.countDocuments(filter);
   const totalPages = Math.ceil(totalCount / limit);
@@ -74,4 +78,5 @@ module.exports = {
   updateServiceById,
   deleteAppImageById,
   getAllAppImages,
+  getAppImages
 };

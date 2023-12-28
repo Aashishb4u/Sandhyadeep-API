@@ -12,6 +12,10 @@ router
   .get(auth('getUsers'), validate(appImageValidation.getAppImages), appImageController.getAppImages);
 
 router
+  .route('/all')
+  .get(auth('getUsers'), validate(appImageValidation.getAllAppImages), appImageController.getAllAppImages);
+
+router
   .route('/:appImageId')
   .get(auth('getUsers'), validate(appImageValidation.getAppImage), appImageController.getAppImageById)
   .patch(auth('manageUsers'), validate(appImageValidation.createAppImage), appImageController.updateAppImage)
