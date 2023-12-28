@@ -24,7 +24,13 @@ const createUser = catchAsync(async (req, res) => {
 
 const getUsers = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  const options = {
+    sortBy: '$natural:desc', // Specify your sorting criteria
+    page: req.query.page || 1, // Page number
+    limit: req.query.limit || 5, // Number of documents per page
+    populate: 'roleId', // Fields to populate - Add more fields (,) separated
+    // example - populate: 'services, products, x, y, z',
+  };
   const result = await userService.queryUsers(filter, options);
   res.send(result);
 });
