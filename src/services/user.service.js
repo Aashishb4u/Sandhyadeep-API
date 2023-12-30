@@ -113,5 +113,5 @@ module.exports = {
   updateUserById,
   deleteUserById,
   getUserByNumber,
-  getAllUsers,
+  getAllUsers
 };

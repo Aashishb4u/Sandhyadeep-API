@@ -8,11 +8,13 @@ const constants = require('../utils/constants');
 
 const register = catchAsync(async (req, res) => {
     let requestBody = req.body;
-    const otpSuccess = await otpService.createOtp(requestBody);
-    if (!otpSuccess) {
+    const generatedOtp = await otpService.createOtp(requestBody);
+    console.log(generatedOtp);
+    const otpTransaction = await otpService.sendOTP(requestBody);
+    if (!otpTransaction) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Otp not created');
     }
-    handleSuccess(httpStatus.CREATED, {oneTimeKey: otpSuccess.oneTimeKey}, constants.OTP_CREATED_SUCCESS, req, res);
+    handleSuccess(httpStatus.CREATED, generatedOtp, constants.OTP_CREATED_SUCCESS, req, res);
 });
 
 const verifyOtp = catchAsync(async (req, res) => {

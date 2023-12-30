@@ -1,5 +1,10 @@
 const randomatic = require("randomatic");
 const { Otp } = require('../models');
+const constants = require('../utils/constants');
+const request = require('request-promise');
+const ApiError = require('../utils/ApiError');
+const httpStatus = require('http-status');
+const { User } = require('../models');
 
 const createRandomOtp = async () => {
   const otp = randomatic("0", 4);
@@ -13,6 +18,10 @@ const createOtp = async (otpBody) => {
   otpBody.otp = await randomatic("0", 4);
   let otp = await getOtpByMobile(mobileNo);
   if (otp) {
+    if (otp.otpCount >= 5) {
+      throw new ApiError(httpStatus.TOO_MANY_REQUESTS, 'OTP Limit Exceeded');
+    }
+    otpBody.otpCount  = otp.otpCount + 1;
     Object.assign(otp, otpBody);
     otp = await otp.save();
   } else {
@@ -20,6 +29,36 @@ const createOtp = async (otpBody) => {
   }
   return otp;
 };
+
+const sendOTP = async (otpBody) => {
+  const {mobileNo, otp} = otpBody;
+  try {
+    return await request({
+      method: 'GET',
+      url: 'https://api.authkey.io/request',
+      qs: {
+        authkey: constants.AUTH_KEY,
+        mobile: mobileNo,
+        country_code: '+91',
+        sid: '11267',
+        otp: otp
+      },
+      json: true,
+    });
+  } catch (error) {
+    // Handle errors, e.g., log or throw an exception
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Otp not sent');
+  }
+
+};
+
+const refreshOtp = async (userId) => {
+  const {mobileNo} = await User.findById(userId);
+  const otpBody = {otpCount: 0};
+  let otp = await getOtpByMobile(mobileNo);
+  Object.assign(otp, otpBody);
+  return await otp.save();
+}
 
 const reGenerateOtp = async (otpBody) => {
   const {mobileNo} = otpBody;
@@ -46,5 +85,7 @@ module.exports = {
   createOtp,
   getOtpByMobile,
   verifyOneTimeKey,
-  reGenerateOtp
+  reGenerateOtp,
+  sendOTP,
+  refreshOtp
 };

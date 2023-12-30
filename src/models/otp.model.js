@@ -17,6 +17,11 @@ const otpSchema = mongoose.Schema(
       type: String,
       required: true,
       default: '',
+    },
+    otpCount: {
+      type: Number,
+      default: 1,
+      required: true,
     }
   });
 

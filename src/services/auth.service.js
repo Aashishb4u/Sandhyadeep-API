@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const tokenService = require('./token.service');
 const userService = require('./user.service');
+const otpService = require('./otp.service');
 const Token = require('../models/token.model');
 const ApiError = require('../utils/ApiError');
 const { tokenTypes } = require('../config/tokens');
@@ -26,6 +27,8 @@ const loginUserWithEmailAndPassword = async (email, password) => {
  */
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
+  const {user} = refreshTokenDoc;
+  const otpRefresh = await otpService.refreshOtp(user);
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.OK, 'Invalid Refresh Token');
   }
