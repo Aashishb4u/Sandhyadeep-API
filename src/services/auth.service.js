@@ -27,11 +27,11 @@ const loginUserWithEmailAndPassword = async (email, password) => {
  */
 const logout = async (refreshToken) => {
   const refreshTokenDoc = await Token.findOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
-  const {user} = refreshTokenDoc;
-  const otpRefresh = await otpService.refreshOtp(user);
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.OK, 'Invalid Refresh Token');
   }
+  const {user} = refreshTokenDoc;
+  const otpRefresh = await otpService.refreshOtp(user, refreshTokenDoc);
   await refreshTokenDoc.remove();
 };
 
