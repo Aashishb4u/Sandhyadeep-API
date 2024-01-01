@@ -79,7 +79,11 @@ const cancelBookingById = async (id, booking) => {
   let updatedBooking = await updateBookingById(id, booking);
   if(updatedBooking) {
     const paymentId = updatedBooking.paymentId;
-    paymentStatus = await paymentService.updatePayment(paymentId, {paymentStatus: 'refund_initiated'})
+    const payment = await paymentService.getPaymentById(paymentId);
+    const data = {
+      paymentStatus: (payment.paymentMethod === 'online') ? 'refund_initiated' : 'cancelled'
+    }
+    paymentStatus = await paymentService.updatePayment(paymentId, data)
   }
   return paymentStatus;
 };

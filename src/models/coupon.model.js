@@ -23,7 +23,7 @@ const couponSchema = mongoose.Schema(
       },
     ],
     expiresOn: {
-      type: String,
+      type: Date,
     },
     couponLabel: {
       type: String,

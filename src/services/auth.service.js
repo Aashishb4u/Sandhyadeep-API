@@ -43,12 +43,13 @@ const logout = async (refreshToken) => {
 const refreshAuth = async (refreshToken) => {
   try {
     const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
-    const user = await userService.getUserById(refreshTokenDoc.user);
-    if (!user) {
-      throw new Error();
+    if (!refreshTokenDoc) {
+      throw new ApiError(httpStatus.OK, 'Invalid Refresh Token');
     }
-    await refreshTokenDoc.remove();
-    return tokenService.generateAuthTokens(user);
+    const {user} = refreshTokenDoc;
+    const userData = await userService.getUserById(user);
+    const otpRefresh = await otpService.refreshOtp(user, refreshTokenDoc);
+    return tokenService.generateAuthTokens(userData);
   } catch (error) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Access Token Invalid');
   }

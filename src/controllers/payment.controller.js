@@ -159,7 +159,7 @@ const verificationSuccessHook = catchAsync(async (req, res) => {
         paymentAmount: transactionLog.paymentAmount,
         paymentDate: transactionLog.paymentDate,
         signatureVerification: true,
-        paymentStatus: 'complete', // Assuming transaction status represents payment status
+        paymentStatus: 'paid', // Assuming transaction status represents payment status
         paymentReceiptId: transactionLog.paymentReceiptId,
         paymentMethod: transactionLog.paymentMethod,
       };
@@ -174,14 +174,15 @@ const verificationSuccessHook = catchAsync(async (req, res) => {
         couponDiscount: transactionLog.couponDiscount,
         timeSlot: transactionLog.timeSlot,
         bookingDate: transactionLog.bookingDate,
+        bookingOrderId: `#BKNG${Math.floor(1000 + Math.random() * 9000)}`,
         bookingOtp: Math.floor(1000 + Math.random() * 9000),
-        status: 'paid',
+        status: 'initiated',
         ratings: 0,
         isCancelled: false,
       };
       const newBooking = await bookingService.createBooking(bookingData);
 
-      require('fs').writeFileSync('payment2.json', JSON.stringify(req.body, null, 4))
+      require('fs').writeFileSync('payment_details.json', JSON.stringify(req.body, null, 4))
       require('fs').writeFileSync('latest_booking.json', JSON.stringify(newBooking, null, 4))
       require('fs').writeFileSync('latest_payment.json', JSON.stringify(paymentResponse, null, 4))
     }

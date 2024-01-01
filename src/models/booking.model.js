@@ -59,6 +59,9 @@ const bookingSchema = mongoose.Schema(
     bookingOtp: {
       type: String,
     },
+    bookingOrderId: {
+      type: String,
+    },
     status: {
       type: String,
       default: 'initiated'

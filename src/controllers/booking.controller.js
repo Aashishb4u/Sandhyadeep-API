@@ -7,6 +7,7 @@ const {handleSuccess, handleError} = require('../utils/SuccessHandler');
 
 const createBooking = catchAsync(async (req, res) => {
   req.body.bookingOtp = Math.floor(1000 + Math.random() * 9000);
+  req.body.bookingOrderId = `#BKNG${Math.floor(1000 + Math.random() * 9000)}`;
   const booking = await bookingService.createBooking(req.body);
   handleSuccess(httpStatus.CREATED, { booking }, 'Booking created successfully.', req, res);
 });
