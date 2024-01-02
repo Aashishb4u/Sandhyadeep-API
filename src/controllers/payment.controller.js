@@ -135,6 +135,28 @@ const verificationFailed = catchAsync(async (req, res) => {
   res.json({ status: 'ok' });
 });
 
+const refundCompletedHook = catchAsync(async (req, res) => {
+  const expectedSignature = crypto
+    .createHmac('sha256', constants.RAZORPAY_TEST_SECRET)
+    .update(JSON.stringify(req.body))
+    .digest('hex');
+
+  if (expectedSignature === req.headers['x-razorpay-signature']) {
+    const requestBody = req.body;
+    if (requestBody && requestBody.event && requestBody.event === 'refund.processed') {
+      const orderId = requestBody.payload.payment.entity.order_id;
+      const paymentData = { paymentStatus: 'refund_completed' };
+      const payment =  await paymentService.updatePaymentByOrderId(orderId, paymentData);
+      require('fs').writeFileSync('refund_completed.json', JSON.stringify(req.body, null, 4));
+      require('fs').writeFileSync('refund_api_status.json', JSON.stringify(payment, null, 4));
+    }
+  } else {
+    handleError(httpStatus.FORBIDDEN, 'Payment not authorised and rejected', req, res, '');
+    return;
+  }
+  res.json({ status: 'ok' });
+});
+
 const verificationSuccessHook = catchAsync(async (req, res) => {
   const expectedSignature = crypto
       .createHmac('sha256', constants.RAZORPAY_TEST_SECRET)
@@ -202,5 +224,6 @@ module.exports = {
   verificationSuccessHook,
   verificationFailed,
   initiatePayment,
-  addTransactionLog
+  addTransactionLog,
+  refundCompletedHook
 };

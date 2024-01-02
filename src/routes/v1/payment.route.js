@@ -6,11 +6,21 @@ const paymentController = require('../../controllers/payment.controller');
 
 const router = express.Router();
 // AppImage Authorization: Bearer <token>
+
+// Web Hooks
 router.post('/payment-verification',
   paymentController.verificationSuccessHook);
 
 router.post('/payment-failed',
   paymentController.verificationFailed);
+
+router.post('/refund-processed',
+  paymentController.refundCompletedHook);
+//
+// router.post('/refund-initiated',
+//   paymentController.refundInitiatedHook);
+
+//  End
 
 router
   .route('/initiate')
@@ -37,10 +47,6 @@ router
 // router
 //   .route('/payment-verification')
 //   .post(auth('manageUsers'), paymentController.verificationHook);
-
-router
-  .route('/refund/:paymentId')
-  .post(auth('manageUsers'), validate(paymentValidation.refundPayment), paymentController.refundPayment);
 
 router
   .route('/:paymentId')

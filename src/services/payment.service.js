@@ -23,8 +23,12 @@ const getPaymentById = async (id) => {
   return Payment.findById(id);
 };
 
+const getPaymentByOrderId = async (orderId) => {
+  return Payment.findOne({ razorpayOrderId: orderId });
+};
+
 const getTransactionLogByOrderId = async (orderIdToMatch) => {
-  return TransactionLog.findOne({ razorpayOrderId: orderIdToMatch })
+  return TransactionLog.findOne({ razorpayOrderId: orderIdToMatch });
 };
 
 const updatePaymentByOrderId = async (orderIdToMatch, updateBody) => {
