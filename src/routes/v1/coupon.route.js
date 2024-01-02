@@ -9,19 +9,23 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(couponValidation.createCoupon), couponController.createCoupon)
-  .get(auth('getUsers'), validate(couponValidation.getAllCoupons), couponController.getAllCoupons);
+  .get(validate(couponValidation.getAllCoupons), couponController.getAllCoupons);
+  // .get(auth('getUsers'), validate(couponValidation.getAllCoupons), couponController.getAllCoupons);
 
 router
   .route('/selectedServices')
-  .post(auth('getUsers'), validate(couponValidation.getCoupons), couponController.getCoupons);
+  .post( validate(couponValidation.getCoupons), couponController.getCoupons);
+  // .post(auth('getUsers'), validate(couponValidation.getCoupons), couponController.getCoupons);
 
 router
   .route('/apply-coupon')
-  .post(auth('getUsers'), validate(couponValidation.applyCoupon), couponController.applyCoupon);
+  .post( validate(couponValidation.applyCoupon), couponController.applyCoupon);
+  // .post(auth('getUsers'), validate(couponValidation.applyCoupon), couponController.applyCoupon);
 
 router
   .route('/:couponId')
-  .get(auth('getUsers'), validate(couponValidation.getAllCoupons), couponController.getCouponById)
+  .get(validate(couponValidation.getAllCoupons), couponController.getCouponById)
+  // .get(auth('getUsers'), validate(couponValidation.getAllCoupons), couponController.getCouponById)
   .delete(auth('manageUsers'), validate(couponValidation.deleteCoupon), couponController.deleteCoupon);
 
 module.exports = router;

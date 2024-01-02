@@ -9,15 +9,18 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(packageValidation.createPackage), packageController.createPackage)
-  .get(auth('getUsers'), validate(packageValidation.getPackages), packageController.getPackages);
+  .get(validate(packageValidation.getPackages), packageController.getPackages);
+  // .get(auth('getUsers'), validate(packageValidation.getPackages), packageController.getPackages);
 
 router
   .route('/all')
-  .get(auth('getUsers'), validate(packageValidation.getPackages), packageController.getAllPackages);
+  .get(validate(packageValidation.getPackages), packageController.getAllPackages);
+  // .get(auth('getUsers'), validate(packageValidation.getPackages), packageController.getAllPackages);
 
 router
   .route('/:packageId')
-  .get(auth('getUsers'), validate(packageValidation.getPackageById), packageController.getPackageById)
+  .get(validate(packageValidation.getPackageById), packageController.getPackageById)
+  // .get(auth('getUsers'), validate(packageValidation.getPackageById), packageController.getPackageById)
   .patch(auth('manageUsers'), validate(packageValidation.updatePackage), packageController.updatePackage)
   .delete(auth('manageUsers'), validate(packageValidation.deletePackage), packageController.deletePackage);
 

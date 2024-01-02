@@ -9,15 +9,18 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(appImageValidation.createAppImage), appImageController.createAppImage)
-  .get(auth('getUsers'), validate(appImageValidation.getAppImages), appImageController.getAppImages);
+  .get(validate(appImageValidation.getAppImages), appImageController.getAppImages);
+  // .get(auth('getUsers'), validate(appImageValidation.getAppImages), appImageController.getAppImages);
 
 router
   .route('/all')
-  .get(auth('getUsers'), validate(appImageValidation.getAllAppImages), appImageController.getAllAppImages);
+  .get(validate(appImageValidation.getAllAppImages), appImageController.getAllAppImages);
+  // .get(auth('getUsers'), validate(appImageValidation.getAllAppImages), appImageController.getAllAppImages);
 
 router
   .route('/:appImageId')
-  .get(auth('getUsers'), validate(appImageValidation.getAppImage), appImageController.getAppImageById)
+  .get(validate(appImageValidation.getAppImage), appImageController.getAppImageById)
+  // .get(auth('getUsers'), validate(appImageValidation.getAppImage), appImageController.getAppImageById)
   .patch(auth('manageUsers'), validate(appImageValidation.createAppImage), appImageController.updateAppImage)
   .delete(auth('manageUsers'), validate(appImageValidation.deleteAppImage), appImageController.deleteAppImage);
 

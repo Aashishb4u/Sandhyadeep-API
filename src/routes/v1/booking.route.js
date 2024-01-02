@@ -9,15 +9,18 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(bookingValidation.createBooking), bookingController.createBooking)
-  .get(auth('getUsers'), validate(bookingValidation.getBookings), bookingController.getBookings);
+  .get(validate(bookingValidation.getBookings), bookingController.getBookings);
+  // .get(auth('getUsers'), validate(bookingValidation.getBookings), bookingController.getBookings);
 
 router
   .route('/user/:userId')
-  .get(auth('getUsers'), validate(bookingValidation.getUserBookings), bookingController.getUserRelatedBookings);
+  .get(validate(bookingValidation.getUserBookings), bookingController.getUserRelatedBookings);
+  // .get(auth('getUsers'), validate(bookingValidation.getUserBookings), bookingController.getUserRelatedBookings);
 
 router
   .route('/:bookingId')
-  .get(auth('getUsers'), validate(bookingValidation.getBookingById), bookingController.getBookingById)
+  .get(validate(bookingValidation.getBookingById), bookingController.getBookingById)
+  // .get(auth('getUsers'), validate(bookingValidation.getBookingById), bookingController.getBookingById)
   .patch(auth('manageUsers'), validate(bookingValidation.updateBooking), bookingController.updateBooking)
   .delete(auth('manageUsers'), validate(bookingValidation.deleteBooking), bookingController.deleteBooking);
 

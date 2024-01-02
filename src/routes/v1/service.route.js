@@ -9,15 +9,18 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(serviceValidation.createService), serviceController.createService)
-  .get(auth('getUsers'), validate(serviceValidation.getServices), serviceController.getServices);
+  .get(validate(serviceValidation.getServices), serviceController.getServices);
+  // .get(auth('getUsers'), validate(serviceValidation.getServices), serviceController.getServices);
 
 router
   .route('/all')
-  .get(auth('getUsers'), validate(serviceValidation.getAllServices), serviceController.getAllServices);
+  .get(validate(serviceValidation.getAllServices), serviceController.getAllServices);
+  // .get(auth('getUsers'), validate(serviceValidation.getAllServices), serviceController.getAllServices);
 
 router
   .route('/:serviceId')
-  .get(auth('getUsers'), validate(serviceValidation.getServiceById), serviceController.getServiceById)
+  .get(validate(serviceValidation.getServiceById), serviceController.getServiceById)
+  // .get(auth('getUsers'), validate(serviceValidation.getServiceById), serviceController.getServiceById)
   .patch(auth('manageUsers'), validate(serviceValidation.updateService), serviceController.updateService)
   .delete(auth('manageUsers'), validate(serviceValidation.deleteService), serviceController.deleteService);
 

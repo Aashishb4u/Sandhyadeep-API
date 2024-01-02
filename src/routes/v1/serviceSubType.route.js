@@ -9,16 +9,19 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(serviceSubTypeValidation.createSubService), serviceSubTypeController.createSubService)
-  .get(auth('getUsers'), validate(serviceSubTypeValidation.getSubServices), serviceSubTypeController.getSubServices);
+  .get(validate(serviceSubTypeValidation.getSubServices), serviceSubTypeController.getSubServices);
+  // .get(auth('getUsers'), validate(serviceSubTypeValidation.getSubServices), serviceSubTypeController.getSubServices);
 
 router
   .route('/all')
-  .get(auth('getUsers'), validate(serviceSubTypeValidation.getAllSubServices), serviceSubTypeController.getAllSubServices);
+  .get(validate(serviceSubTypeValidation.getAllSubServices), serviceSubTypeController.getAllSubServices);
+  // .get(auth('getUsers'), validate(serviceSubTypeValidation.getAllSubServices), serviceSubTypeController.getAllSubServices);
 
 
 router
   .route('/:subServiceId')
-  .get(auth('getUsers'), validate(serviceSubTypeValidation.getSubServiceById), serviceSubTypeController.getSubServiceById)
+  .get(validate(serviceSubTypeValidation.getSubServiceById), serviceSubTypeController.getSubServiceById)
+  // .get(auth('getUsers'), validate(serviceSubTypeValidation.getSubServiceById), serviceSubTypeController.getSubServiceById)
   .patch(auth('manageUsers'), validate(serviceSubTypeValidation.updateSubService), serviceSubTypeController.updateSubService)
   .delete(
     auth('manageUsers'),

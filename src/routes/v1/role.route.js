@@ -9,11 +9,13 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(roleValidation.createRole), roleController.createRole)
-  .get(auth('getUsers'), validate(roleValidation.getRoles), roleController.getRoles);
+  .get(validate(roleValidation.getRoles), roleController.getRoles);
+  // .get(auth('getUsers'), validate(roleValidation.getRoles), roleController.getRoles);
 
 router
   .route('/:roleId')
-  .get(auth('getUsers'), validate(roleValidation.getRole), roleController.getRole)
+  .get(validate(roleValidation.getRole), roleController.getRole)
+  // .get(auth('getUsers'), validate(roleValidation.getRole), roleController.getRole)
   .delete(auth('manageUsers'), validate(roleValidation.deleteRole), roleController.deleteRole);
 
 module.exports = router;

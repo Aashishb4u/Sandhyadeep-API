@@ -9,11 +9,13 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageUsers'), validate(serviceTypeValidation.createServiceType), serviceTypeController.createServiceType)
-  .get(auth('getUsers'), validate(serviceTypeValidation.getServiceTypes), serviceTypeController.getServiceTypes);
+  .get(validate(serviceTypeValidation.getServiceTypes), serviceTypeController.getServiceTypes);
+  // .get(auth('getUsers'), validate(serviceTypeValidation.getServiceTypes), serviceTypeController.getServiceTypes);
 
 router
   .route('/:serviceTypeId')
-  .get(auth('getUsers'), validate(serviceTypeValidation.getServiceTypeById), serviceTypeController.getServiceTypeById)
+  .get(validate(serviceTypeValidation.getServiceTypeById), serviceTypeController.getServiceTypeById)
+  // .get(auth('getUsers'), validate(serviceTypeValidation.getServiceTypeById), serviceTypeController.getServiceTypeById)
   .patch(auth('manageUsers'), validate(serviceTypeValidation.updateServiceType), serviceTypeController.updateServiceType)
   .delete(auth('manageUsers'), validate(serviceTypeValidation.deleteServiceType), serviceTypeController.deleteServiceType);
 
