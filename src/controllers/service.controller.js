@@ -81,19 +81,40 @@ const updateService = catchAsync(async (req, res) => {
       if (requestData.skinTypes && typeof requestData.skinTypes === 'string') {
         skinTypesArray = requestData.skinTypes.split(',');
       }
-      const reqData = {
-        name: requestData.name,
-        type: requestData.type,
-        duration: requestData.duration,
-        price: requestData.price,
-        serviceType: requestData.serviceType,
-        description: requestData.description,
-        brands: brandsArray,
-        skinTypes: skinTypesArray,
-      };
+      // const reqData = {
+      //   name: requestData.name,
+      //   type: requestData.type,
+      //   duration: requestData.duration,
+      //   price: requestData.price,
+      //   serviceType: requestData.serviceType,
+      //   description: requestData.description,
+      //   brands: brandsArray,
+      //   skinTypes: skinTypesArray,
+      // };
+
+      // Check if requestData contains specific properties before creating reqData
+      const reqData = {};
+      if (requestData.name) reqData.name = requestData.name;
+      if (requestData.type) reqData.type = requestData.type;
+      if (requestData.duration) reqData.duration = requestData.duration;
+      if (requestData.price) reqData.price = requestData.price;
+      if (requestData.serviceType) reqData.serviceType = requestData.serviceType;
+      if (requestData.description) reqData.description = requestData.description;
+
+      if (requestData.brands && typeof requestData.brands === 'string') {
+        brandsArray = requestData.brands.split(',');
+        reqData.brands = brandsArray;
+      }
+
+      if (requestData.skinTypes && typeof requestData.skinTypes === 'string') {
+        skinTypesArray = requestData.skinTypes.split(',');
+        reqData.skinTypes = skinTypesArray;
+      }
+
       if (req.file && req.file.filename) {
         reqData.imageUrl = `public/${req.file.filename}`;
       }
+
       if (requestData.subService && requestData.subService !== 'not_applicable') {
         reqData.subService = requestData.subService;
       } else if (requestData.subService === 'not_applicable') {

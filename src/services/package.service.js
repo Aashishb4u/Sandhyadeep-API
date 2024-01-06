@@ -33,7 +33,7 @@ const getPackages = async (filter, options) => {
  * @param {Object} updateBody
  * @returns {Promise<Service>}
  */
-const updateServiceById = async (servicePackageId, updateBody) => {
+const updatePackageById = async (servicePackageId, updateBody) => {
   const servicePackage = await getPackageById(servicePackageId);
   if (!servicePackage) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Image not found');
@@ -60,7 +60,7 @@ const deletePackageById = async (servicePackageId) => {
 module.exports = {
   createPackage,
   getPackageById,
-  updateServiceById,
+  updatePackageById,
   deletePackageById,
   getAllPackages,
   getPackages

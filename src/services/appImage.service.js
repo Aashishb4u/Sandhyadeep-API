@@ -48,7 +48,7 @@ const getAppImages = async (filter, page, limit) => {
  * @param {Object} updateBody
  * @returns {Promise<Service>}
  */
-const updateServiceById = async (appImageId, updateBody) => {
+const updateAppImageById = async (appImageId, updateBody) => {
   const appImage = await getAppImageById(appImageId);
   if (!appImage) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Image not found');
@@ -75,7 +75,7 @@ const deleteAppImageById = async (appImageId) => {
 module.exports = {
   createAppImage,
   getAppImageById,
-  updateServiceById,
+  updateAppImageById,
   deleteAppImageById,
   getAllAppImages,
   getAppImages
