@@ -14,7 +14,8 @@ router
 
 router
   .route('/selectedServices')
-  .post( validate(couponValidation.getCoupons), couponController.getCoupons);
+  .post(couponController.getCoupons);
+  // .route('/selectedServices').post( validate(couponValidation.getCoupons), couponController.getCoupons);
   // .post(auth('getUsers'), validate(couponValidation.getCoupons), couponController.getCoupons);
 
 router
