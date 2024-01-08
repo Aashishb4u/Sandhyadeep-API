@@ -22,6 +22,11 @@ const couponSchema = mongoose.Schema(
         ref: 'ServiceType',
       },
     ],
+    paymentMethods: [
+      {
+        type: String,
+      },
+    ],
     expiresOn: {
       type: Date,
     },

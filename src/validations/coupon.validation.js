@@ -7,6 +7,7 @@ const createCoupon = {
     discountPercent: Joi.number().required(),
     couponLabel: Joi.string().required(),
     serviceTypes: Joi.array().required(),
+    paymentMethods: Joi.array().required(),
     expiresOn: Joi.date().required(),
     minAmount: Joi.number().required(),
     maxDiscountAmount: Joi.number().required(),
@@ -31,6 +32,7 @@ const updateCoupon = {
 const getCoupons = {
   body: Joi.object().keys({
     services: Joi.array().required(),
+    paymentMethods: Joi.array().required(),
   }),
 };
 

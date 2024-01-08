@@ -13,6 +13,7 @@ const createCoupon = catchAsync(async (req, res) => {
 const getCoupons = catchAsync(async (req, res) => {
   try {
     const serviceDetails = req.body.services;
+    const {paymentMethods} = req.body;
     const serviceIds = serviceDetails.map((service) => service.id);
 
     const services = await Service.find({ _id: { $in: serviceIds } })
@@ -24,7 +25,7 @@ const getCoupons = catchAsync(async (req, res) => {
       return { ...service.toObject(), counter: foundService.counter };
     });
 
-    const coupons = await couponService.getApplicableCoupons(updatedServices);
+    const coupons = await couponService.getApplicableCoupons(updatedServices, paymentMethods);
     handleSuccess(httpStatus.OK, coupons, 'All Applicable Coupons.', req, res);
   } catch (err) {
     handleError(httpStatus.INTERNAL_SERVER_ERROR, 'Server Error', req, res);
