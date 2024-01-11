@@ -15,11 +15,11 @@ if (config.env !== 'test') {
  * Send an email
  * @param {string} to
  * @param {string} subject
- * @param {string} text
+ * @param {string} html
  * @returns {Promise}
  */
-const sendEmail = async (to, subject, text) => {
-  const msg = { from: config.email.from, to, subject, text };
+const sendEmail = async (to, subject, html) => {
+  const msg = { from: config.email.from, to, subject, html };
   await transport.sendMail(msg);
 };
 

@@ -10,5 +10,8 @@ module.exports = {
   DLT_ENTITY_ID: '1201170308225284481',
   OTP_TEMPLATE_ID: '1207170383071572972',
   OTP_SENDER_ID: 'SndMob',
-  AUTH_KEY: '7561905c22516901'
+  AUTH_KEY: '7561905c22516901',
+
+  BUSINESS_LOGO: 'https://app.sandhyadeep.in/assets/theme-images/Sandhyadeep_logo.png',
+  BUSINESS_LOGO_WHITE: 'https://app.sandhyadeep.in/assets/business-logo/white-logo.png'
 };

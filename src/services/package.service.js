@@ -17,7 +17,7 @@ const createPackage = async (servicePackageBody) => {
  * @returns {Promise<Service>}
  */
 const getPackageById = async (id) => {
-  return Package.findById(id);
+  return Package.findById(id).populate('services');
 };
 
 const getAllPackages = async (filter) => {

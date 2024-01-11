@@ -4,11 +4,14 @@ const moment = require('moment');
 const crypto = require("crypto");
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { paymentService, bookingService } = require('../services');
+const { paymentService, bookingService, userService, packageService, emailService, serviceService } = require('../services');
 const { handleSuccess, handleError } = require('../utils/SuccessHandler');
 const { picUpload } = require('../utils/fileUpload');
 const pick = require('../utils/pick');
 const constants = require('../utils/constants');
+const fs = require('fs/promises');
+const path = require('path');
+const {fetchTemplates} = require("../utils/fetchBookingTemplate");
 
 const createOnlinePayment = catchAsync(async (req, res) => {
   const requestBody = req.body;
@@ -188,7 +191,7 @@ const verificationSuccessHook = catchAsync(async (req, res) => {
       const paymentResponse = await paymentService.createPayment(paymentData);
 
       // Create a new Booking document
-      const bookingData = {
+      let bookingData = {
         services: transactionLog.services,
         packages: transactionLog.packages,
         paymentId: paymentResponse._id, // Assuming you want to link the payment to the booking
@@ -203,7 +206,33 @@ const verificationSuccessHook = catchAsync(async (req, res) => {
         isCancelled: false,
       };
       const newBooking = await bookingService.createBooking(bookingData);
+      if(newBooking) {
+        if (bookingData.services && bookingData.services.length) {
+          const servicePromises = bookingData.services.map(async (service) => {
+            const serviceDetails = await serviceService.getServiceById(service.serviceId);
+            return {
+              quantity: service.quantity,
+              ...serviceDetails.toObject(), // Use toObject to convert Mongoose document to a plain JavaScript object
+            };
+          });
 
+          bookingData.services = await Promise.all(servicePromises);
+        }
+
+        if (bookingData.packages && bookingData.packages.length) {
+          const packagePromises = bookingData.packages.map(async (pckg) => {
+            const packageDetails = await packageService.getPackageById(pckg.packageId);
+            return {
+              ...pckg.toObject(),
+              ...packageDetails.toObject(), // Use toObject to convert Mongoose document to a plain JavaScript object
+            };
+          });
+
+          bookingData.packages = await Promise.all(packagePromises);
+          console.log(bookingData, 'bookingDatabookingDatabookingDatabookingData');
+        }
+        const senMailSuccess = await sendBookingConfirmEmail(transactionLog.userId, bookingData, paymentData);
+      }
       require('fs').writeFileSync('payment_details.json', JSON.stringify(req.body, null, 4))
       require('fs').writeFileSync('latest_booking.json', JSON.stringify(newBooking, null, 4))
       require('fs').writeFileSync('latest_payment.json', JSON.stringify(paymentResponse, null, 4))
@@ -213,7 +242,15 @@ const verificationSuccessHook = catchAsync(async (req, res) => {
     return;
   }
   res.json({ status: 'ok' });
-})
+});
+
+const sendBookingConfirmEmail = async (userId, newBooking, paymentData) => {
+  const userDetails = await userService.getUserById(userId);
+  const {email} = userDetails;
+  const subject = `Booking ${newBooking.bookingOrderId} Confirmed | Sandhyadeep Beauty Parlour`;
+  let mailContent = await fetchTemplates(userDetails, newBooking, paymentData);
+  return await emailService.sendEmail(email, subject, mailContent);
+};
 
 module.exports = {
   createOnlinePayment,
