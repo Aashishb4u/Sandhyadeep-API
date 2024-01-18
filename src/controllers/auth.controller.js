@@ -32,6 +32,7 @@ const verifyOtp = catchAsync(async (req, res) => {
     let tokens = {};
     if (user) tokens = await tokenService.generateAuthTokens(user);
     if (user) verification.isRegistered = true;
+    if (user) await otpService.refreshOtp(user);
     handleSuccess(httpStatus.OK, {verification, tokens, user}, constants.OTP_VERIFY_SUCCESS, req, res);
 });
 

@@ -42,9 +42,19 @@ const cancelBooking = {
   }),
 };
 
+const completeBooking = {
+  params: Joi.object().keys({
+    bookingId: Joi.string().custom(objectId).required(),
+  }),
+  body: Joi.object().keys({
+    bookingOtp: Joi.string()
+  }),
+};
+
 const getBookings = {
   query: Joi.object().keys({
     id: Joi.string(),
+    bookingOrderId: Joi.string()
   }),
 };
 
@@ -74,4 +84,5 @@ module.exports = {
   updateBooking,
   getUserBookings,
   cancelBooking,
+  completeBooking
 };

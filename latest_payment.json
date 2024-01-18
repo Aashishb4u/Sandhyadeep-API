@@ -1,0 +1,13 @@
+{
+    "razorpayPaymentId": "pay_NNNICofYkLqoc0",
+    "razorpayOrderId": "order_NNNHtKQ5a2CE6z",
+    "razorpaySignature": null,
+    "paymentAmount": 90,
+    "signatureVerification": true,
+    "userId": "6589d0806237cc193dabe68e",
+    "paymentDate": "2024-01-11T22:10:26+05:30",
+    "paymentStatus": "paid",
+    "paymentReceiptId": "receipt-240111101026",
+    "paymentMethod": "online",
+    "id": "65a01a103f8adc2671729dca"
+}

@@ -38,12 +38,14 @@ const modifyBookingData = (bookingsData) => {
 };
 
 const getBookings = catchAsync(async (req, res) => {
-  const bookingsData = await bookingService.getAllBookings();
+  const filter = pick(req.query, ['bookingOrderId']) || '';
+  console.log(filter);
+  const bookingsData = await bookingService.getAllBookings(filter);
   let filteredBookings = [];
-  if (bookingsData && bookingsData.length) {
-    filteredBookings = modifyBookingData(bookingsData);
-  }
-  res.send(filteredBookings);
+  // if (bookingsData && bookingsData.length) {
+  //   filteredBookings = modifyBookingData(bookingsData);
+  // }
+  res.send(bookingsData);
 });
 
 const getUserRelatedBookings = catchAsync(async (req, res) => {
@@ -55,7 +57,6 @@ const getUserRelatedBookings = catchAsync(async (req, res) => {
   }
   res.send(filteredBookings);
 });
-
 
 const getBookingById = catchAsync(async (req, res) => {
   const booking = await bookingService.getBookingById(req.params.bookingId);
@@ -84,6 +85,27 @@ const cancelBooking = catchAsync(async (req, res) => {
   handleSuccess(httpStatus.CREATED, {paymentStatus}, 'Booking cancelled successfully.', req, res);
 });
 
+const completeBooking = catchAsync(async (req, res) => {
+  const {bookingId} = req.params;
+  const {bookingOtp} = req.body;
+  const booking = await bookingService.getBookingById(bookingId);
+
+  if (!booking) {
+    handleError(httpStatus.NOT_FOUND, 'Booking not found', req, res);
+    return;
+  }
+
+  if(bookingOtp !== booking.bookingOtp) {
+    handleError(httpStatus.NOT_FOUND, 'Otp is not valid', req, res);
+    return;
+  }
+
+  booking.status = 'completed';
+  booking.isCancelled = false;
+  const paymentStatus = await bookingService.completeBookingById(req.params.bookingId, booking);
+  handleSuccess(httpStatus.CREATED, {paymentStatus}, 'Booking completed successfully.', req, res);
+});
+
 const deleteBooking = catchAsync(async (req, res) => {
   await bookingService.deleteBookingById(req.params.bookingId);
   handleSuccess(httpStatus.NO_CONTENT, {}, 'Booking deleted successfully.', req, res);
@@ -98,4 +120,5 @@ module.exports = {
   updateBooking,
   deleteBooking,
   getUserRelatedBookings,
+  completeBooking
 };

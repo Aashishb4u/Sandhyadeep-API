@@ -31,7 +31,7 @@ const logout = async (refreshToken) => {
     throw new ApiError(httpStatus.OK, 'Invalid Refresh Token');
   }
   const {user} = refreshTokenDoc;
-  const otpRefresh = await otpService.refreshOtp(user, refreshTokenDoc);
+  const otpRefresh = await otpService.refreshOtpAndLogout(user, refreshTokenDoc);
   await refreshTokenDoc.remove();
 };
 
@@ -48,7 +48,7 @@ const refreshAuth = async (refreshToken) => {
     }
     const {user} = refreshTokenDoc;
     const userData = await userService.getUserById(user);
-    const otpRefresh = await otpService.refreshOtp(user, refreshTokenDoc);
+    const otpRefresh = await otpService.refreshOtpAndLogout(user, refreshTokenDoc);
     return tokenService.generateAuthTokens(userData);
   } catch (error) {
     throw new ApiError(httpStatus.BAD_REQUEST, 'Access Token Invalid');

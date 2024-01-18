@@ -1,0 +1,28 @@
+{
+    "couponId": null,
+    "couponDiscount": 0,
+    "status": "initiated",
+    "isCancelled": false,
+    "services": [
+        {
+            "_id": "65a019fa3f8adc2671729dc6",
+            "serviceId": "640f778b0a44db0054906198",
+            "quantity": 1,
+            "price": 60
+        },
+        {
+            "_id": "65a019fa3f8adc2671729dc7",
+            "serviceId": "640f792f0a44db00549061c2",
+            "quantity": 1,
+            "price": 30
+        }
+    ],
+    "packages": [],
+    "paymentId": "65a01a103f8adc2671729dca",
+    "timeSlot": "12 PM",
+    "bookingDate": "2024-01-15T22:08:30+05:30",
+    "bookingOrderId": "#BKNG6838",
+    "bookingOtp": "3789",
+    "ratings": 0,
+    "id": "65a01a103f8adc2671729dcc"
+}

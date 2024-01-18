@@ -26,8 +26,10 @@ const getBookingById = async (id) => {
 //   return Booking.find().populate('services.serviceId').populate('paymentId').sort({ $natural: -1 });
 // };
 
-const getAllBookings = async () => {
-  return Booking.find()
+const getAllBookings = async (filter) => {
+  const caseInsensitiveFilter = filter ? { bookingOrderId: { $regex: new RegExp(filter.bookingOrderId, 'i') } } : {};
+
+  return Booking.find(caseInsensitiveFilter)
     .populate({
       path: 'services.serviceId',
       populate: {
@@ -38,6 +40,7 @@ const getAllBookings = async () => {
     .populate('paymentId')
     .sort({ $natural: -1 });
 };
+
 
 const getAllUserBookings = async (filteredUserId) => {
   return Booking.find({
@@ -54,8 +57,7 @@ const getAllUserBookings = async (filteredUserId) => {
       },
     })
     .populate('packages.packageId')
-    .populate('paymentId')
-    .sort({ $natural: -1 });
+    .populate('paymentId').sort({ bookingDate: -1 }); // Sorting by bookingDate in descending order
 };
 
 /**
@@ -88,6 +90,21 @@ const cancelBookingById = async (id, booking) => {
   return paymentStatus;
 };
 
+const completeBookingById = async (id, booking) => {
+  let paymentStatus = null;
+  let updatedBooking = await updateBookingById(id, booking);
+  if(updatedBooking) {
+    const paymentId = updatedBooking.paymentId;
+    const payment = await paymentService.getPaymentById(paymentId);
+    if (!payment) {
+      throw new ApiError(httpStatus.NOT_FOUND, 'Payment not found');
+    }
+    const data = { paymentStatus: 'paid' }
+    paymentStatus = await paymentService.updatePayment(paymentId, data)
+  }
+  return paymentStatus;
+};
+
 /**
  * Delete subServiceType by id
  * @param {ObjectId} subServiceTypeId
@@ -110,4 +127,5 @@ module.exports = {
   getAllBookings,
   getAllUserBookings,
   cancelBookingById,
+  completeBookingById
 };

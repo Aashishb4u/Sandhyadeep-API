@@ -28,6 +28,10 @@ router
   .route('/cancel/:bookingId')
   .post(auth('manageUsers'), validate(bookingValidation.cancelBooking), bookingController.cancelBooking);
 
+router
+  .route('/complete/:bookingId')
+  .post(auth('manageUsers'), validate(bookingValidation.completeBooking), bookingController.completeBooking)
+
 module.exports = router;
 
 /**

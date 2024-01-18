@@ -52,10 +52,22 @@ const sendOTP = async (otpBody) => {
 
 };
 
-const refreshOtp = async (userId, refreshTokenDoc) => {
+const refreshOtpAndLogout = async (userId, refreshTokenDoc) => {
   const userData = await User.findById(userId);
   if(!userData) {
     if(refreshTokenDoc) await refreshTokenDoc.remove();
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not exist');
+  }
+  const {mobileNo} = userData;
+  const otpBody = {otpCount: 0};
+  let otp = await getOtpByMobile(mobileNo);
+  Object.assign(otp, otpBody);
+  return await otp.save();
+}
+
+const refreshOtp = async (userId) => {
+  const userData = await User.findById(userId);
+  if(!userData) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not exist');
   }
   const {mobileNo} = userData;
@@ -92,5 +104,6 @@ module.exports = {
   verifyOneTimeKey,
   reGenerateOtp,
   sendOTP,
+  refreshOtpAndLogout,
   refreshOtp
 };
