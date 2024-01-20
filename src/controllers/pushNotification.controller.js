@@ -14,7 +14,7 @@ const saveSubscription = catchAsync(async (req, res) => {
 });
 
 const sendNotification = catchAsync(async (req, res) => {
-  const { title, body, url } = req.body;
+  const {title, body, url} = req.body;
   const notificationPayload = {
     "notification": {
       "title": "Angular News",
@@ -33,29 +33,23 @@ const sendNotification = catchAsync(async (req, res) => {
   };
 
   const subscriptions = await pushNotificationService.getSubscription();
-
-  Promise.all(subscriptions.map(sub => webpush.sendNotification(
-    sub, JSON.stringify(notificationPayload)
-  ))).then(() => res.status(200).json({ message: 'Newsletter sent successfully.' }))
-    .catch(err => {
-      // Handle errors for individual subscriptions
-      subscriptions.forEach(sub => {
+  subscriptions.forEach(subscription => {
+    webpush.sendNotification(subscription, JSON.stringify(notificationPayload))
+      .then(() => {
+        console.log("Notification sent successfully");
+      }).catch(err => {
+        // Check for the specific error that indicates an invalid subscription
         if (err.statusCode === 410) {
+          // Handle invalid subscription (e.g., remove it from the database)
           console.warn('Invalid subscription detected. Removing from the database.');
-          pushNotificationService.deleteSubscription(sub.endpoint);
+          pushNotificationService.deleteSubscription(subscription.endpoint);
         } else {
-          console.error('Could not send push notification for subscription', sub.endpoint, err);
+          console.error('Could not send push notification', err);
         }
       });
-    });
-
-
-  // Wait for all promises to be resolved
-
-  // All notifications sent, invoke handleSuccess
-  handleSuccess(httpStatus.CREATED, {}, 'Subscriptions Sent Successfully.', req, res);
+  });
+  handleSuccess(httpStatus.CREATED, {}, 'Subscription Sent Successfully.', req, res);
 });
-
 
 
 module.exports = {
