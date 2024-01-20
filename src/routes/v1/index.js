@@ -11,6 +11,7 @@ const appImageRoute = require('./appImages.route');
 const packageRoute = require('./package.route');
 const paymentRoute = require('./payment.route');
 const bookingRoute = require('./booking.route');
+const pushNotificationRoute = require('./pushNotification.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -59,6 +60,14 @@ const defaultRoutes = [
   {
     path: '/bookings',
     route: bookingRoute,
+  },
+  {
+    path: '/notifications',
+    route: pushNotificationRoute,
+  },
+  {
+    path: '/subscriptions',
+    route: pushNotificationRoute,
   },
 ];
 

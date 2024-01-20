@@ -11,3 +11,4 @@ module.exports.Payment = require('./payment.model');
 module.exports.Booking = require('./booking.model');
 module.exports.TransactionLog = require('./transaction-log.model');
 module.exports.Otp = require('./otp.model');
+module.exports.Subscription = require('./push-subscription.model');

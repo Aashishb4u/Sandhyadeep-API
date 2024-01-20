@@ -12,3 +12,4 @@ module.exports.appImageService = require('./appImage.service');
 module.exports.packageService = require('./package.service');
 module.exports.paymentService = require('./payment.service');
 module.exports.bookingService = require('./booking.service');
+module.exports.pushNotificationService = require('./pushNotification.service');

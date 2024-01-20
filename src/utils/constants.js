@@ -12,6 +12,10 @@ module.exports = {
   OTP_SENDER_ID: 'SndMob',
   AUTH_KEY: '7561905c22516901',
 
+  PUSH_NOTIFICATION_PUBLIC_KEY: 'BIMrJmGFzC3kBMKlNuFGVvyo9mewESo9jnqWBJmJwxL0P7AH3WOkpCLqWtB6S5LfzPwjYbO3jW36q7gjXQuOO4w',
+  PUSH_NOTIFICATION_PRIVATE_KEY: '5MtcmP3lLbbjgHgeFNR9pAjpLp0LFjWDK2WJ5bhnMBg',
+  PUSH_NOTIFICATION_EMAIL: 'aashishbhagwat4u@gmail.com',
+
   BUSINESS_LOGO: 'https://app.sandhyadeep.in/assets/theme-images/Sandhyadeep_logo.png',
   BUSINESS_LOGO_WHITE: 'https://app.sandhyadeep.in/assets/business-logo/white-logo.png'
 };
