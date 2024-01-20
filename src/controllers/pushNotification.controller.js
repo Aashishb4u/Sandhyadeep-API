@@ -35,8 +35,8 @@ const sendNotification = catchAsync(async (req, res) => {
   const subscriptions = await pushNotificationService.getSubscription();
   subscriptions.forEach(subscription => {
     webpush.sendNotification(subscription, JSON.stringify(notificationPayload))
-      .then(() => {
-        console.log("Notification sent successfully");
+      .then((res) => {
+        console.log("Notification sent successfully", res);
       }).catch(err => {
         // Check for the specific error that indicates an invalid subscription
         if (err.statusCode === 410) {
