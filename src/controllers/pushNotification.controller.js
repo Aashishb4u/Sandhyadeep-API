@@ -35,12 +35,20 @@ const sendNotification = catchAsync(async (req, res) => {
   const subscriptions = await pushNotificationService.getSubscription();
 
   Promise.all(subscriptions.map(sub => webpush.sendNotification(
-    sub, JSON.stringify(notificationPayload) )))
-    .then(() => res.status(200).json({message: 'Newsletter sent successfully.'}))
+    sub, JSON.stringify(notificationPayload)
+  ))).then(() => res.status(200).json({ message: 'Newsletter sent successfully.' }))
     .catch(err => {
-      console.error("Error sending notification, reason: ", err);
-      // res.sendStatus(500);
+      // Handle errors for individual subscriptions
+      subscriptions.forEach(sub => {
+        if (err.statusCode === 410) {
+          console.warn('Invalid subscription detected. Removing from the database.');
+          pushNotificationService.deleteSubscription(sub.endpoint);
+        } else {
+          console.error('Could not send push notification for subscription', sub.endpoint, err);
+        }
+      });
     });
+
 
   // Wait for all promises to be resolved
 
