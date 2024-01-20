@@ -10,10 +10,10 @@ const register = catchAsync(async (req, res) => {
     let requestBody = req.body;
     const generatedOtp = await otpService.createOtp(requestBody);
     console.log(generatedOtp);
-    // const otpTransaction = await otpService.sendOTP(requestBody);
-    // if (!otpTransaction) {
-    //     throw new ApiError(httpStatus.NOT_FOUND, 'Otp not created');
-    // }
+    const otpTransaction = await otpService.sendOTP(requestBody);
+    if (!otpTransaction) {
+        throw new ApiError(httpStatus.NOT_FOUND, 'Otp not created');
+    }
     handleSuccess(httpStatus.CREATED, generatedOtp, constants.OTP_CREATED_SUCCESS, req, res);
 });
 
