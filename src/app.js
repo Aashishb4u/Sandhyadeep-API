@@ -14,6 +14,8 @@ const { authLimiter } = require('./middlewares/rateLimiter');
 const routes = require('./routes/v1');
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require('./utils/ApiError');
+const webpush = require('web-push');
+const constants = require('./utils/constants');
 
 const app = express();
 
@@ -21,6 +23,12 @@ if (config.env !== 'test') {
   app.use(morgan.successHandler);
   app.use(morgan.errorHandler);
 }
+
+webpush.setVapidDetails(
+  `mailto:${constants.PUSH_NOTIFICATION_EMAIL}`,
+  constants.PUSH_NOTIFICATION_PUBLIC_KEY,
+  constants.PUSH_NOTIFICATION_PRIVATE_KEY
+);
 
 // giving access to public folder
 app.use('/public', express.static(path.join(__dirname, 'public')));

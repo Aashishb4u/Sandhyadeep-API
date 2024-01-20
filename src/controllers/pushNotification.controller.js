@@ -15,41 +15,34 @@ const saveSubscription = catchAsync(async (req, res) => {
 
 const sendNotification = catchAsync(async (req, res) => {
   const { title, body, url } = req.body;
-  const vapidKeys = webpush.generateVAPIDKeys();
-  const payload = {
-    notification: {
-      title: title,
-      body: body,
-    },
+  const notificationPayload = {
+    "notification": {
+      "title": "Angular News",
+      "body": "Newsletter Available!",
+      "icon": "assets/main-page-logo-small-hat.png",
+      "vibrate": [100, 50, 100],
+      "data": {
+        "dateOfArrival": Date.now(),
+        "primaryKey": 1
+      },
+      "actions": [{
+        "action": "explore",
+        "title": "Go to the site"
+      }]
+    }
   };
-
-  webpush.setVapidDetails(
-    `mailto:${constants.PUSH_NOTIFICATION_EMAIL}`,
-    constants.PUSH_NOTIFICATION_PUBLIC_KEY,
-    constants.PUSH_NOTIFICATION_PRIVATE_KEY
-  );
 
   const subscriptions = await pushNotificationService.getSubscription();
 
-  // Map each sendNotification call to a promise
-  const notificationPromises = subscriptions.map(subscription => {
-    return webpush
-      .sendNotification(subscription, JSON.stringify(payload))
-      .then(() => {
-        console.log('Notification sent successfully');
-      })
-      .catch(err => {
-        if (err.statusCode === 410) {
-          console.warn('Invalid subscription detected. Removing from the database.');
-          pushNotificationService.deleteSubscription(subscription.endpoint);
-        } else {
-          console.error('Could not send push notification', err);
-        }
-      });
-  });
+  Promise.all(subscriptions.map(sub => webpush.sendNotification(
+    sub, JSON.stringify(notificationPayload) )))
+    .then(() => res.status(200).json({message: 'Newsletter sent successfully.'}))
+    .catch(err => {
+      console.error("Error sending notification, reason: ", err);
+      // res.sendStatus(500);
+    });
 
   // Wait for all promises to be resolved
-  await Promise.all(notificationPromises);
 
   // All notifications sent, invoke handleSuccess
   handleSuccess(httpStatus.CREATED, {}, 'Subscriptions Sent Successfully.', req, res);
